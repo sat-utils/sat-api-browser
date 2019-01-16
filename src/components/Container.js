@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
+import Toolbar from './Toolbar';
 
 const styles = theme => ({
   root: {
@@ -26,7 +27,9 @@ export const Container = (props) => {
         position="fixed"
         color="default"
         className={classes.appBar}
-      />
+      >
+        <Toolbar />
+      </AppBar>
       <Grid container spacing={0}>
         <Grid
           className={classes.sidebar}
