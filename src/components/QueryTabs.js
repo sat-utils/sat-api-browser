@@ -30,4 +30,9 @@ const mapDispatchToProps = {
   setActiveTab: setActiveQueryTab
 };
 
+QueryTabs.propTypes = {
+  activeTab: PropTypes.number.isRequired,
+  setActiveTab: PropTypes.func.isRequired
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(QueryTabs);
