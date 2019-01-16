@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from './Toolbar';
+import QueryTabs from './QueryTabs';
 
 const styles = theme => ({
   root: {
@@ -38,7 +39,7 @@ export const Container = (props) => {
           sm={6}
           md={4}
         >
-          <div>sidebar</div>
+          <QueryTabs />
         </Grid>
         <Grid
           item
