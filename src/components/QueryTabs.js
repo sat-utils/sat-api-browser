@@ -5,20 +5,24 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { setActiveQueryTab } from '../actions/applicationActions';
 import * as applicationSelectors from '../reducers/applicationSelectors';
+import QueryForm from './QueryForm';
 
 const QueryTabs = (props) => {
   const { activeTab, setActiveTab } = props;
   return (
-    <Tabs
-      value={activeTab}
-      indicatorColor="primary"
-      textColor="primary"
-      variant="fullWidth"
-      onChange={(event, index) => setActiveTab(index)}
-    >
-      <Tab label="Build Query" />
-      <Tab label="Results" />
-    </Tabs>
+    <div>
+      <Tabs
+        value={activeTab}
+        indicatorColor="primary"
+        textColor="primary"
+        variant="fullWidth"
+        onChange={(event, index) => setActiveTab(index)}
+      >
+        <Tab label="Build Query" />
+        <Tab label="Results" />
+      </Tabs>
+      <QueryForm />
+    </div>
   );
 };
 

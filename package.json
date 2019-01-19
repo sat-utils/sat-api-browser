@@ -6,6 +6,7 @@
     "@mapbox/mapbox-gl-style-spec": "^13.5.0",
     "@material-ui/core": "^3.9.0",
     "@material-ui/icons": "^3.0.2",
+    "formik": "^1.4.2",
     "immutable": "^4.0.0-rc.12",
     "mapbox-gl": "^0.52.0",
     "prop-types": "^15.6.2",
@@ -24,7 +25,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "eslint": "eslint . --ext .js" 
+    "eslint": "eslint . --ext .js"
   },
   "eslintConfig": {
     "extends": "react-app"
