@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from './Toolbar';
 import QueryTabs from './QueryTabs';
+import Map from './Map';
 
 const styles = theme => ({
   root: {
@@ -45,7 +46,7 @@ export const Container = (props) => {
           xs={1}
           sm={6}
         >
-          <div>map</div>
+          <Map />
         </Grid>
       </Grid>
     </div>

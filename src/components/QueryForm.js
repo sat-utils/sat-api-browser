@@ -39,7 +39,7 @@ export const QueryForm = (props) => {
       justify="center"
       className={classes.grid}
     >
-      <Grid item xs={12}>
+      <Grid item xs={8}>
         <form onSubmit={handleSubmit}>
           <FormLabel component="legend">
             Date Range

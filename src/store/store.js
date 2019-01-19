@@ -7,7 +7,7 @@ import Immutable from 'immutable';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import reducer from '../reducers/reducer';
-//import stylesheetReducer from '../reducers/stylesheetReducer';
+import stylesheetReducer from '../reducers/stylesheetReducer';
 import applicationReducer from '../reducers/applicationReducer';
 import apiMiddleware from './apiMiddleware';
 
@@ -20,7 +20,7 @@ const composeEnhancers = composeWithDevTools({
 const initialState = {};
 const store = createStore(
   combineReducers({
-    //stylesheet: stylesheetReducer,
+    stylesheet: stylesheetReducer,
     application: applicationReducer,
     reducer
   }),

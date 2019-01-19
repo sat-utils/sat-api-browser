@@ -26,6 +26,7 @@ const FormikDatePicker = (props) => {
   const value = getIn(values, name);
   return (
     <TextField
+      fullWidth
       name={name}
       label={label}
       type="datetime-local"
