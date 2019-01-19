@@ -9,6 +9,13 @@ import QueryForm from './QueryForm';
 
 const QueryTabs = (props) => {
   const { activeTab, setActiveTab } = props;
+  let activeContent;
+  if (activeTab === 0) {
+    activeContent = <QueryForm />;
+  }
+  if (activeTab === 1) {
+    activeContent = <div>Results</div>;
+  }
   return (
     <div>
       <Tabs
@@ -21,7 +28,7 @@ const QueryTabs = (props) => {
         <Tab label="Build Query" />
         <Tab label="Results" />
       </Tabs>
-      <QueryForm />
+      {activeContent}
     </div>
   );
 };

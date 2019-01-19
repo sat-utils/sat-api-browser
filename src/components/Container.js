@@ -37,7 +37,6 @@ export const Container = (props) => {
           item
           xs={12}
           sm={6}
-          md={4}
         >
           <QueryTabs />
         </Grid>
@@ -45,7 +44,6 @@ export const Container = (props) => {
           item
           xs={1}
           sm={6}
-          md={8}
         >
           <div>map</div>
         </Grid>
