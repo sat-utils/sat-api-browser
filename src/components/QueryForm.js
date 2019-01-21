@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormikDatePicker from './FormikDatePicker';
 import { fetchFilteredItems } from '../actions/queryActions';
+import QueryProgress from './QueryProgress';
 
 const styles = theme => ({
   button: {
@@ -21,6 +22,10 @@ const styles = theme => ({
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
+  },
+  progress: {
+    textAlign: 'center',
+    marginTop: theme.spacing.unit * 2
   }
 });
 
@@ -68,6 +73,9 @@ export const QueryForm = (props) => {
             >
               Submit Query
             </Button>
+          </div>
+          <div className={classes.progress}>
+            <QueryProgress />
           </div>
         </form>
       </Grid>

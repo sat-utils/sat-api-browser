@@ -16,3 +16,12 @@ export function fetchFilteredItems(filter) {
     }
   };
 }
+
+export function setActiveQueryTab(tabIndex) {
+  return {
+    type: types.SET_ACTIVE_QUERY_TAB,
+    payload: {
+      tabIndex
+    }
+  };
+}

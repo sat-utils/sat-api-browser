@@ -21,6 +21,9 @@ const addLayers = (map) => {
     filteredItemsSource,
     activeImageItemSource,
     activeImageItem,
+    imagePointsSource,
+    imagePoints,
+    activeImagePoint
   } = stylesheetConstants;
 
   map.addLayer({
@@ -46,15 +49,54 @@ const addLayers = (map) => {
       visibility: 'none'
     }
   });
+
+  map.addLayer({
+    id: imagePoints,
+    type: 'circle',
+    source: imagePointsSource,
+    paint: {
+      'circle-color': '#088',
+      'circle-radius': ['case',
+        ['boolean', ['feature-state', 'hover'], false],
+        9,
+        5
+      ],
+      'circle-stroke-width': 1,
+      'circle-stroke-color': '#fff'
+    }
+  });
+
+  map.addLayer({
+    id: activeImagePoint,
+    type: 'circle',
+    source: imagePointsSource,
+    filter: ['==', ['get', 'id'], 0],
+    paint: {
+      'circle-color': '#ff3333',
+      'circle-radius': 8,
+      'circle-stroke-width': 1,
+      'circle-stroke-color': '#fff'
+    }
+  });
 };
 
 const addSources = (map) => {
   const {
     filteredItemsSource,
-    activeImageItemSource
+    activeImageItemSource,
+    imagePointsSource
   } = stylesheetConstants;
 
   map.addSource(filteredItemsSource, {
+    type: 'geojson',
+    data: {
+      type: 'FeatureCollection',
+      crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
+      features: []
+    }
+  });
+
+  map.addSource(imagePointsSource, {
     type: 'geojson',
     data: {
       type: 'FeatureCollection',
@@ -70,10 +112,71 @@ const addSources = (map) => {
   });
 };
 
+const configureCursor = (map) => {
+  const {
+    imagePoints
+  } = stylesheetConstants;
+
+  map.on('mouseenter', imagePoints, () => {
+    map.getCanvas().style.cursor = 'pointer';
+  });
+
+  map.on('mouseleave', imagePoints, () => {
+    map.getCanvas().style.cursor = '';
+  });
+};
+
 class Map extends Component {
   constructor(props) {
     super(props);
     this.state = { loading: true };
+  }
+  // eslint-disable-next-line
+  hoverHandler(e) {
+    if (e.features.length > 0) {
+      const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
+      const map = e.target;
+      if (this.hoverId) {
+        map.setFeatureState({
+          source: filteredItemsSource,
+          id: this.hoverId
+        },
+        { hover: false });
+        map.setFeatureState({
+          source: imagePointsSource,
+          id: this.hoverId
+        },
+        { hover: false });
+      }
+      this.hoverId = e.features[0].id;
+      map.setFeatureState({
+        source: filteredItemsSource,
+        id: this.hoverId
+      },
+      { hover: true });
+      map.setFeatureState({
+        source: imagePointsSource,
+        id: this.hoverId
+      },
+      { hover: true });
+    }
+  }
+
+  offHoverHandler(e) {
+    const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
+    const map = e.target;
+    if (this.hoverId) {
+      map.setFeatureState({
+        source: filteredItemsSource,
+        id: this.hoverId
+      },
+      { hover: false });
+      map.setFeatureState({
+        source: imagePointsSource,
+        id: this.hoverId
+      },
+      { hover: false });
+    }
   }
   // eslint-disable-next-line
   applyStyleChanges(style, nextStyle) {
@@ -117,6 +220,11 @@ class Map extends Component {
       map.on('load', () => {
         addSources(map);
         addLayers(map);
+
+        configureCursor(map);
+        const { imagePoints } = stylesheetConstants;
+        map.on('mousemove', imagePoints, this.hoverHandler);
+        map.on('mouseleave', imagePoints, this.offHoverHandler);
 
         const resizeHandler = () => {
           const { clientHeight, clientWidth } = map.getCanvas();

@@ -1,5 +1,7 @@
 import { Map, fromJS } from 'immutable';
 import bbox from '@turf/bbox';
+import centerOfMass from '@turf/center-of-mass';
+import { featureCollection } from '@turf/helpers';
 import geoViewport from '@mapbox/geo-viewport';
 import * as actions from '../constants/action_types';
 import * as stylesheetConstants from '../constants/stylesheetConstants';
@@ -23,21 +25,20 @@ const getViewport = (state, geoJSON) => {
 };
 
 const setFilteredDataSource = (state, payload) => {
-  const { filteredItemsSource } = stylesheetConstants;
-  const filteredFeatures = payload.json.features.filter(
-    item => state.get('featureIds').find(id => id === item.properties.id)
-  );
-  const filteredFeatureCollection = {
-    type: 'FeatureCollection',
-    crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
-    features: filteredFeatures
-  };
-  const viewport = getViewport(state, filteredFeatureCollection);
+  const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
+  const { json } = payload;
   const newState = state.withMutations((tempState) => {
-    tempState.setIn(['style', 'center'], fromJS(viewport.center));
-    tempState.setIn(['style', 'zoom'], viewport.zoom - 0.5);
+    const centers = json.features.map(feature => (centerOfMass(feature)));
+    const centerFeatureCollection = featureCollection(centers);
+    if (json.features.length) {
+      const viewport = getViewport(state, json);
+      tempState.setIn(['style', 'center'], fromJS(viewport.center));
+      tempState.setIn(['style', 'zoom'], viewport.zoom - 0.5);
+    }
     tempState.setIn(['style', 'sources', filteredItemsSource, 'data'],
-      fromJS(filteredFeatureCollection));
+      fromJS(json));
+    tempState.setIn(['style', 'sources', imagePointsSource, 'data'],
+      fromJS(centerFeatureCollection));
   });
   return newState;
 };

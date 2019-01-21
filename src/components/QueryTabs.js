@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { setActiveQueryTab } from '../actions/applicationActions';
-import * as applicationSelectors from '../reducers/applicationSelectors';
+import { setActiveQueryTab } from '../actions/queryActions';
+import * as applicationSelectors from '../reducers/querySelectors';
 import QueryForm from './QueryForm';
 
 const styles = theme => ({
