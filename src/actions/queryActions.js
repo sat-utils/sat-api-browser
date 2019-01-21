@@ -1,6 +1,6 @@
 import * as types from '../constants/action_types';
 
-export function fetchFilteredItems(query) {
+export function fetchFilteredItems(filter) {
   return {
     type: types.CALL_API,
     payload: {
@@ -12,7 +12,7 @@ export function fetchFilteredItems(query) {
         errorType: types.FETCH_FILTERED_ITEMS_FAILED
       },
       method: 'POST',
-      json: query
+      json: filter
     }
   };
 }

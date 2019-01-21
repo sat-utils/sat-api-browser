@@ -81,11 +81,17 @@ const EnhancedForm = withFormik({
     enddatetime: new Date().toISOString().substring(0, 16)
   }),
 
-  handleSubmit: (values, { props, setSubmitting, resetForm }) => {
+  handleSubmit: (values, { props, setSubmitting }) => {
     const { fetchFilteredItemsAction } = props;
-    fetchFilteredItemsAction(values);
+    const {
+      startdatetime,
+      enddatetime
+    } = values;
+    const filter = {
+      time: `${startdatetime}/${enddatetime}`
+    };
+    fetchFilteredItemsAction(filter);
     setSubmitting(false);
-    resetForm();
   }
 })(QueryForm);
 

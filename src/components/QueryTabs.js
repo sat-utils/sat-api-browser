@@ -52,7 +52,7 @@ QueryTabs.propTypes = {
   activeTab: PropTypes.number.isRequired,
   setActiveTab: PropTypes.func.isRequired,
   classes: PropTypes.shape({
-    root: PropTypes.string.isRequired
+    tabs: PropTypes.string.isRequired
   }).isRequired
 };
 

@@ -98,7 +98,6 @@ class Map extends Component {
     const {
       setStyle,
       setStyleSucceeded,
-      setActiveImageItem,
       setClientSize,
       width,
       style
@@ -190,8 +189,6 @@ class Map extends Component {
 Map.propTypes = {
   style: ImmutablePropTypes.map.isRequired,
   setStyle: PropTypes.func.isRequired,
-  filterItems: PropTypes.func.isRequired,
-  setActiveImageItem: PropTypes.func.isRequired,
   setClientSize: PropTypes.func.isRequired,
   width: PropTypes.string.isRequired,
   setStyleSucceeded: PropTypes.func.isRequired

@@ -1,7 +1,7 @@
 /* global fetch */
 const BASE_URL = process.env.REACT_APP_API_URL;
 
-export default async (endpoint, method, token, json) => {
+export default async (endpoint, method, json) => {
   const config = {
     method,
     Accept: 'application/json',
@@ -9,12 +9,8 @@ export default async (endpoint, method, token, json) => {
     mode: 'cors',
     body: JSON.stringify(json)
   };
-
-  if (token) {
-    config.headers = { Authorization: token };
-  }
-
-  const url = new URL(endpoint, BASE_URL);
+  const url = new URL(`stage2/${endpoint}`, BASE_URL);
+  // const url = new URL(endpoint, BASE_URL);
 
   const response = await fetch(url.toString(), config);
   let responseJSON;
