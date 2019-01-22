@@ -132,52 +132,52 @@ class Map extends Component {
     this.state = { loading: true };
   }
   // eslint-disable-next-line
-  //hoverHandler(e) {
-    //if (e.features.length > 0) {
-      //const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
-      //const map = e.target;
-      //if (this.hoverId) {
-        //map.setFeatureState({
-          //source: filteredItemsSource,
-          //id: this.hoverId
-        //},
-        //{ hover: false });
-        //map.setFeatureState({
-          //source: imagePointsSource,
-          //id: this.hoverId
-        //},
-        //{ hover: false });
-      //}
-      //this.hoverId = e.features[0].id;
-      //map.setFeatureState({
-        //source: filteredItemsSource,
-        //id: this.hoverId
-      //},
-      //{ hover: true });
-      //map.setFeatureState({
-        //source: imagePointsSource,
-        //id: this.hoverId
-      //},
-      //{ hover: true });
-    //}
-  //}
+  hoverHandler(e) {
+    if (e.features.length > 0) {
+      const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
+      const map = e.target;
+      if (this.hoverId) {
+        map.setFeatureState({
+          source: filteredItemsSource,
+          id: this.hoverId
+        },
+        { hover: false });
+        map.setFeatureState({
+          source: imagePointsSource,
+          id: this.hoverId
+        },
+        { hover: false });
+      }
+      this.hoverId = e.features[0].id;
+      map.setFeatureState({
+        source: filteredItemsSource,
+        id: this.hoverId
+      },
+      { hover: true });
+      map.setFeatureState({
+        source: imagePointsSource,
+        id: this.hoverId
+      },
+      { hover: true });
+    }
+  }
 
-  //offHoverHandler(e) {
-    //const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
-    //const map = e.target;
-    //if (this.hoverId) {
-      //map.setFeatureState({
-        //source: filteredItemsSource,
-        //id: this.hoverId
-      //},
-      //{ hover: false });
-      //map.setFeatureState({
-        //source: imagePointsSource,
-        //id: this.hoverId
-      //},
-      //{ hover: false });
-    //}
-  //}
+  offHoverHandler(e) {
+    const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
+    const map = e.target;
+    if (this.hoverId) {
+      map.setFeatureState({
+        source: filteredItemsSource,
+        id: this.hoverId
+      },
+      { hover: false });
+      map.setFeatureState({
+        source: imagePointsSource,
+        id: this.hoverId
+      },
+      { hover: false });
+    }
+  }
   // eslint-disable-next-line
   applyStyleChanges(style, nextStyle) {
     const changes = diff(style, nextStyle);
@@ -215,16 +215,16 @@ class Map extends Component {
         zoom: 3,
         attributionControl: false
       };
-      //this.hoverId = null;
+      this.hoverId = 0;
       const map = new mapboxgl.Map(mapConfig);
       map.on('load', () => {
         addSources(map);
         addLayers(map);
 
         configureCursor(map);
-        //const { imagePoints } = stylesheetConstants;
-        //map.on('mousemove', imagePoints, this.hoverHandler);
-        //map.on('mouseleave', imagePoints, this.offHoverHandler);
+        const { imagePoints } = stylesheetConstants;
+        map.on('mousemove', imagePoints, this.hoverHandler);
+        map.on('mouseleave', imagePoints, this.offHoverHandler);
 
         const resizeHandler = () => {
           const { clientHeight, clientWidth } = map.getCanvas();

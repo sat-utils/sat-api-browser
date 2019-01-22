@@ -1,7 +1,7 @@
 import { Map, fromJS } from 'immutable';
 import bbox from '@turf/bbox';
-import centerOfMass from '@turf/center-of-mass';
 import { featureCollection } from '@turf/helpers';
+import centerOfMass from '@turf/center-of-mass';
 import geoViewport from '@mapbox/geo-viewport';
 import * as actions from '../constants/action_types';
 import * as stylesheetConstants from '../constants/stylesheetConstants';
@@ -24,28 +24,56 @@ const getViewport = (state, geoJSON) => {
   return viewport;
 };
 
-const setFilteredDataSource = (state, payload) => {
+function addIntegerIds(state, collection) {
+  const highestId = state.get('highestId');
+  const { features } = collection;
+  const updatedFeatures = features.map((feature, index) => (
+    Object.assign({}, feature, {
+      stacId: feature.id,
+      id: highestId + index + 1
+    })
+  ));
+  const updatedCollection = Object.assign({}, collection,
+    { features: updatedFeatures });
+  return updatedCollection;
+}
+
+function createCentersCollection(features) {
+  const centers = features.map((feature) => {
+    const center = centerOfMass(feature);
+    center.stacId = feature.stacId;
+    center.id = feature.id;
+    return center;
+  });
+  const centersCollection = featureCollection(centers);
+  return centersCollection;
+}
+
+function setFilteredDataSource(state, payload) {
   const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
   const { json } = payload;
+  const collection = addIntegerIds(state, json);
   const newState = state.withMutations((tempState) => {
-    const centers = json.features.map(feature => (centerOfMass(feature)));
-    const centerFeatureCollection = featureCollection(centers);
-    if (json.features.length) {
+    const { features } = collection;
+    const centersCollection = createCentersCollection(features);
+    if (features.length) {
       const viewport = getViewport(state, json);
       tempState.setIn(['style', 'center'], fromJS(viewport.center));
       tempState.setIn(['style', 'zoom'], viewport.zoom - 0.5);
+      tempState.set('highestId', state.get('highestId') + features.length);
     }
     tempState.setIn(['style', 'sources', filteredItemsSource, 'data'],
-      fromJS(json));
+      fromJS(collection));
     tempState.setIn(['style', 'sources', imagePointsSource, 'data'],
-      fromJS(centerFeatureCollection));
+      fromJS(centersCollection));
   });
   return newState;
-};
+}
 
 const initialState = Map({
   style: fromJS({}),
-  activeImageItemId: 0
+  activeImageItemId: 0,
+  highestId: 0
 });
 
 export default function stylesheetReducer(state = initialState, action) {
