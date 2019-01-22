@@ -24,6 +24,7 @@
     "redux-devtools-extension": "^2.13.7",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
+    "scroll-into-view-if-needed": "^2.2.20",
     "typeface-roboto": "^0.0.54"
   },
   "scripts": {

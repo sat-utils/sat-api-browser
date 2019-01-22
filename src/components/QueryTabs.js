@@ -7,6 +7,7 @@ import Tab from '@material-ui/core/Tab';
 import { setActiveQueryTab } from '../actions/queryActions';
 import * as querySelectors from '../reducers/querySelectors';
 import QueryForm from './QueryForm';
+import ImageItems from './ImageItems';
 
 const styles = theme => ({
   tabs: {
@@ -25,7 +26,7 @@ const QueryTabs = (props) => {
     activeContent = <QueryForm />;
   }
   if (activeTab === 1) {
-    activeContent = <div>Results</div>;
+    activeContent = <ImageItems />;
   }
   return (
     <div>
