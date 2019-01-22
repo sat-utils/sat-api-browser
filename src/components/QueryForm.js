@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withFormik } from 'formik';
 import { withStyles } from '@material-ui/core/styles';
+import { Persist } from 'formik-persist';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -77,6 +78,9 @@ export const QueryForm = (props) => {
           <div className={classes.progress}>
             <QueryProgress />
           </div>
+          <Persist
+            name="query-form"
+          />
         </form>
       </Grid>
     </Grid>

@@ -11,6 +11,7 @@
     "@turf/center-of-mass": "^6.0.1",
     "@turf/helpers": "^6.1.4",
     "formik": "^1.4.2",
+    "formik-persist": "^1.1.0",
     "immutable": "^4.0.0-rc.12",
     "mapbox-gl": "^0.52.0",
     "prop-types": "^15.6.2",

@@ -31,7 +31,7 @@ const FormikDatePicker = (props) => {
       label={label}
       type="datetime-local"
       onChange={handleChange}
-      defaultValue={value}
+      value={value}
       className={classes.textField}
       helperText={
         (fieldError
