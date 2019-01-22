@@ -18,6 +18,15 @@ export const getFilteredItems = createSelector(
   }
 );
 
+export const getResultsTotal = createSelector(
+  [getStyle],
+  (style) => {
+    const resultsTotal = style
+      .getIn(['sources', filteredItemsSource, 'data', 'meta', 'found']);
+    return resultsTotal;
+  }
+);
+
 const getActiveImageState = state => state.stylesheet.get('activeImageItemId');
 export const getActiveImageItemId = createSelector(
   [getActiveImageState],

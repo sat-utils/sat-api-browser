@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
@@ -8,6 +8,7 @@ import { setActiveQueryTab } from '../actions/queryActions';
 import * as querySelectors from '../reducers/querySelectors';
 import QueryForm from './QueryForm';
 import ImageItems from './ImageItems';
+import ResultsCount from './ResultsCount';
 
 const styles = theme => ({
   tabs: {
@@ -26,7 +27,12 @@ const QueryTabs = (props) => {
     activeContent = <QueryForm />;
   }
   if (activeTab === 1) {
-    activeContent = <ImageItems />;
+    activeContent = (
+      <Fragment>
+        <ResultsCount />
+        <ImageItems />
+      </Fragment>
+    );
   }
   return (
     <div>
