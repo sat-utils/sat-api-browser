@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { setActiveQueryTab } from '../actions/queryActions';
-import * as applicationSelectors from '../reducers/querySelectors';
+import * as querySelectors from '../reducers/querySelectors';
 import QueryForm from './QueryForm';
 
 const styles = theme => ({
@@ -14,7 +14,12 @@ const styles = theme => ({
   }
 });
 const QueryTabs = (props) => {
-  const { activeTab, setActiveTab, classes } = props;
+  const {
+    activeTab,
+    setActiveTab,
+    resultsDisabled,
+    classes
+  } = props;
   let activeContent;
   if (activeTab === 0) {
     activeContent = <QueryForm />;
@@ -33,7 +38,10 @@ const QueryTabs = (props) => {
         onChange={(event, index) => setActiveTab(index)}
       >
         <Tab label="Build Query" />
-        <Tab label="Results" />
+        <Tab
+          label="Results"
+          disabled={resultsDisabled}
+        />
       </Tabs>
       {activeContent}
     </div>
@@ -41,7 +49,8 @@ const QueryTabs = (props) => {
 };
 
 const mapStateToProps = state => ({
-  activeTab: applicationSelectors.getActiveQueryTab(state)
+  activeTab: querySelectors.getActiveQueryTab(state),
+  resultsDisabled: querySelectors.getResultsTabDisabled(state)
 });
 
 const mapDispatchToProps = {
@@ -51,9 +60,7 @@ const mapDispatchToProps = {
 QueryTabs.propTypes = {
   activeTab: PropTypes.number.isRequired,
   setActiveTab: PropTypes.func.isRequired,
-  classes: PropTypes.shape({
-    tabs: PropTypes.string.isRequired
-  }).isRequired
+  resultsDisabled: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(QueryTabs));

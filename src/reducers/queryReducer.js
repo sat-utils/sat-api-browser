@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
 import * as actions from '../constants/action_types';
-import { loading, none } from '../constants/applicationConstants';
+import { loading, none, completed } from '../constants/applicationConstants';
 
 const initialState = Map({
   activeQueryTab: 0,
@@ -21,7 +21,8 @@ export default function queryReducer(state = initialState, action) {
     }
     case actions.FETCH_FILTERED_ITEMS_SUCCEEDED: {
       return state.merge({
-        status: none
+        status: completed,
+        activeQueryTab: 1
       });
     }
     default: {
