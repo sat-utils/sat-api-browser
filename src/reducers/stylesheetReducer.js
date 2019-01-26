@@ -51,7 +51,7 @@ function createCentersCollection(features) {
 
 function setFilteredDataSource(state, payload) {
   const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
-  const { json } = payload;
+  const { json, filter } = payload;
   const collection = addIntegerIds(state, json);
   const newState = state.withMutations((tempState) => {
     const { features } = collection;
@@ -62,10 +62,17 @@ function setFilteredDataSource(state, payload) {
       tempState.setIn(['style', 'zoom'], viewport.zoom - 0.5);
       tempState.set('highestId', state.get('highestId') + features.length);
     }
-    tempState.mergeDeepIn(['style', 'sources', filteredItemsSource, 'data'],
-      fromJS(collection));
-    tempState.mergeDeepIn(['style', 'sources', imagePointsSource, 'data'],
-      fromJS(centersCollection));
+    if (filter.page) {
+      tempState.mergeDeepIn(['style', 'sources', filteredItemsSource, 'data'],
+        fromJS(collection));
+      tempState.mergeDeepIn(['style', 'sources', imagePointsSource, 'data'],
+        fromJS(centersCollection));
+    } else {
+      tempState.setIn(['style', 'sources', filteredItemsSource, 'data'],
+        fromJS(collection));
+      tempState.setIn(['style', 'sources', imagePointsSource, 'data'],
+        fromJS(centersCollection));
+    }
   });
   return newState;
 }
