@@ -5,11 +5,12 @@ import { withFormik } from 'formik';
 import { withStyles } from '@material-ui/core/styles';
 import { Persist } from 'formik-persist';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormikDatePicker from './FormikDatePicker';
 import { fetchFilteredItems } from '../actions/queryActions';
-import QueryProgress from './QueryProgress';
+import { getQueryStatus } from '../reducers/querySelectors';
+import { loading } from '../constants/applicationConstants';
+import ProgressButton from './ProgressButton';
 
 const styles = theme => ({
   button: {
@@ -23,10 +24,6 @@ const styles = theme => ({
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
-  },
-  progress: {
-    textAlign: 'center',
-    marginTop: theme.spacing.unit * 2
   }
 });
 
@@ -37,6 +34,7 @@ export const QueryForm = (props) => {
     setValues,
     values,
     isValid,
+    status,
     ...formikFieldProps
   } = props;
   return (
@@ -65,18 +63,13 @@ export const QueryForm = (props) => {
           <br />
           <br />
           <div className={classes.submit}>
-            <Button
-              className={classes.button}
+            <ProgressButton
               type="submit"
-              variant="contained"
-              color="primary"
-              disabled={!isValid}
-            >
-              Submit Query
-            </Button>
-          </div>
-          <div className={classes.progress}>
-            <QueryProgress />
+              disabled={!isValid || status === loading}
+              label="Submit Query"
+              status={status}
+              onClick={handleSubmit}
+            />
           </div>
           <Persist
             name="query-form"
@@ -100,16 +93,25 @@ const EnhancedForm = withFormik({
       enddatetime
     } = values;
     const filter = {
-      time: `${startdatetime}/${enddatetime}`
+      time: `${startdatetime}/${enddatetime}`,
+      query: {
+        collection: {
+          eq: 'landsat-8-l1'
+        }
+      }
     };
     fetchFilteredItemsAction(filter);
     setSubmitting(false);
   }
 })(QueryForm);
 
+const mapStateToProps = state => ({
+  status: getQueryStatus(state)
+});
+
 QueryForm.propTypes = {
   fetchFilteredItemsAction: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = { fetchFilteredItemsAction: fetchFilteredItems };
-export default withStyles(styles)(connect(null, mapDispatchToProps)(EnhancedForm));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(EnhancedForm));

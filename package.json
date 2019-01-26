@@ -10,6 +10,7 @@
     "@turf/bbox": "^6.0.1",
     "@turf/center-of-mass": "^6.0.1",
     "@turf/helpers": "^6.1.4",
+    "classnames": "^2.2.6",
     "formik": "^1.4.2",
     "formik-persist": "^1.1.0",
     "immutable": "^4.0.0-rc.12",
