@@ -25,6 +25,7 @@ const apiMiddleware = store => next => async (action) => {
     return next({
       payload: {
         json: responseJSON,
+        filter: json
       },
       type: successType
     });

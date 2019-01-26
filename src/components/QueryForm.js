@@ -12,6 +12,7 @@ import { getQueryStatus } from '../reducers/querySelectors';
 import { loading } from '../constants/applicationConstants';
 import ProgressButton from './ProgressButton';
 
+const limit = process.env.REACT_APP_RESULT_LIMIT;
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
@@ -93,6 +94,7 @@ const EnhancedForm = withFormik({
       enddatetime
     } = values;
     const filter = {
+      limit,
       time: `${startdatetime}/${enddatetime}`,
       query: {
         collection: {

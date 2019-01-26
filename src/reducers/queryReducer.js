@@ -1,10 +1,11 @@
-import { Map } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import * as actions from '../constants/action_types';
 import { loading, none, completed } from '../constants/applicationConstants';
 
 const initialState = Map({
   activeQueryTab: 0,
-  status: none
+  status: none,
+  currentFilter: fromJS({})
 });
 
 export default function queryReducer(state = initialState, action) {
@@ -20,9 +21,11 @@ export default function queryReducer(state = initialState, action) {
       });
     }
     case actions.FETCH_FILTERED_ITEMS_SUCCEEDED: {
+      const { payload: { filter } } = action;
       return state.merge({
         status: completed,
-        activeQueryTab: 1
+        activeQueryTab: 1,
+        currentFilter: fromJS(filter)
       });
     }
     default: {

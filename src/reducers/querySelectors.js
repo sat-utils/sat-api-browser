@@ -4,10 +4,16 @@ import { completed } from '../constants/applicationConstants';
 
 const getActiveQueryTabState = state => state.query.get('activeQueryTab');
 const getStatusState = state => state.query.get('status');
+const getCurrentFilterState = state => state.query.get('currentFilter');
 
 export const getActiveQueryTab = createSelector(
   [getActiveQueryTabState],
   activeQueryTab => activeQueryTab
+);
+
+export const getCurrentFilter = createSelector(
+  [getCurrentFilterState],
+  currentFilter => currentFilter
 );
 
 export const getQueryStatus = createSelector(

@@ -8,7 +8,7 @@ import { setActiveQueryTab } from '../actions/queryActions';
 import * as querySelectors from '../reducers/querySelectors';
 import QueryForm from './QueryForm';
 import ImageItems from './ImageItems';
-import ResultsCount from './ResultsCount';
+import ResultsPaging from './ResultsPaging';
 
 const styles = theme => ({
   tabs: {
@@ -29,7 +29,7 @@ const QueryTabs = (props) => {
   if (activeTab === 1) {
     activeContent = (
       <Fragment>
-        <ResultsCount />
+        <ResultsPaging />
         <ImageItems />
       </Fragment>
     );

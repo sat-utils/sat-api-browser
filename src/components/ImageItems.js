@@ -43,7 +43,7 @@ export const ImageItems = (props) => {
   });
   return (
     <GridList
-      style={{ maxHeight: 'calc(100vh - 130px)', overflowY: 'scroll' }}
+      style={{ maxHeight: 'calc(100vh - 170px)', overflowY: 'scroll' }}
       cellHeight={300}
     >
       {items}

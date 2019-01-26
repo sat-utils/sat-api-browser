@@ -9,7 +9,7 @@ export default async (endpoint, method, json) => {
     mode: 'cors',
     body: JSON.stringify(json)
   };
-  const url = new URL(`stage2/${endpoint}`, BASE_URL);
+  const url = new URL(`prod/${endpoint}`, BASE_URL);
   // const url = new URL(endpoint, BASE_URL);
 
   const response = await fetch(url.toString(), config);

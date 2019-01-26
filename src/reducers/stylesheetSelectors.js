@@ -18,6 +18,11 @@ export const getFilteredItems = createSelector(
   }
 );
 
+export const getResultsDisplayed = createSelector(
+  [getFilteredItems],
+  filteredItems => (filteredItems.size)
+);
+
 export const getResultsTotal = createSelector(
   [getStyle],
   (style) => {
