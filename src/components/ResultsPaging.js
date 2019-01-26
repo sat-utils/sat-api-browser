@@ -16,8 +16,12 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit
   },
-  chips: {
+  container: {
     textAlign: 'center'
+  },
+  chips: {
+    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing.unit
   }
 });
 
@@ -45,14 +49,16 @@ export const ResultsPaging = (props) => {
       className={classes.grid}
     >
       <Grid item xs={8}>
-        <div className={classes.chips}>
+        <div className={classes.container}>
           <Chip
             color="primary"
             label={`Found - ${resultsTotal}`}
+            className={classes.chips}
           />
           <Chip
             color="secondary"
             label={`Displaying - ${resultsDisplayed}`}
+            className={classes.chips}
           />
           <ProgressButton
             disabled={resultsTotal === 0 || moreResults === 0 || status === loading}

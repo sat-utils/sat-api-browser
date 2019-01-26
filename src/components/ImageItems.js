@@ -3,24 +3,15 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import GridList from '@material-ui/core/GridList';
-import { withStyles } from '@material-ui/core/styles';
 import { setActiveImageItem } from '../actions/stylesheetActionCreators';
 import * as stylesheetSelectors from '../reducers/stylesheetSelectors';
 import ImageItem from './ImageItem';
-
-const styles = theme => ({
-  instructions: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit
-  }
-});
 
 export const ImageItems = (props) => {
   const {
     imageItems,
     setActiveImageItem: dispatchSetActiveImageItem,
     activeImageItemId,
-    classes
   } = props;
 
   const items = imageItems.map((item) => {
@@ -43,7 +34,7 @@ export const ImageItems = (props) => {
   });
   return (
     <GridList
-      style={{ maxHeight: 'calc(100vh - 170px)', overflowY: 'scroll' }}
+      style={{ maxHeight: 'calc(100vh - 220px)', overflowY: 'scroll' }}
       cellHeight={300}
     >
       {items}
@@ -54,8 +45,7 @@ export const ImageItems = (props) => {
 ImageItems.propTypes = {
   imageItems: ImmutablePropTypes.list.isRequired,
   setActiveImageItem: PropTypes.func.isRequired,
-  activeImageItemId: PropTypes.number.isRequired,
-  classes: PropTypes.object.isRequired
+  activeImageItemId: PropTypes.number.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -65,4 +55,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { setActiveImageItem };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(ImageItems));
+export default connect(mapStateToProps, mapDispatchToProps)(ImageItems);
