@@ -62,9 +62,9 @@ function setFilteredDataSource(state, payload) {
       tempState.setIn(['style', 'zoom'], viewport.zoom - 0.5);
       tempState.set('highestId', state.get('highestId') + features.length);
     }
-    tempState.setIn(['style', 'sources', filteredItemsSource, 'data'],
+    tempState.mergeDeepIn(['style', 'sources', filteredItemsSource, 'data'],
       fromJS(collection));
-    tempState.setIn(['style', 'sources', imagePointsSource, 'data'],
+    tempState.mergeDeepIn(['style', 'sources', imagePointsSource, 'data'],
       fromJS(centersCollection));
   });
   return newState;
