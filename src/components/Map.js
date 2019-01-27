@@ -126,6 +126,24 @@ const configureCursor = (map) => {
   });
 };
 
+const mapClickHandler = (e, setActiveImageItem) => {
+  const map = e.target;
+  const { imagePoints } = stylesheetConstants;
+
+  const queryFeatures = map.queryRenderedFeatures(
+    e.point,
+    {
+      layers: [imagePoints]
+    }
+  );
+  if (queryFeatures.length > 0) {
+    if (queryFeatures[0].layer.id === imagePoints) {
+      const { id } = queryFeatures[0];
+      setActiveImageItem(id);
+    }
+  }
+};
+
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -203,7 +221,8 @@ class Map extends Component {
       setStyleSucceeded,
       setClientSize,
       width,
-      style
+      style,
+      setActiveImageItem
     } = this.props;
 
     if (width !== 'xs') {
@@ -220,8 +239,10 @@ class Map extends Component {
       map.on('load', () => {
         addSources(map);
         addLayers(map);
-
         configureCursor(map);
+        map.on('click', (e) => {
+          mapClickHandler(e, setActiveImageItem);
+        });
         const { imagePoints } = stylesheetConstants;
         map.on('mousemove', imagePoints, this.hoverHandler);
         map.on('mouseleave', imagePoints, this.offHoverHandler);

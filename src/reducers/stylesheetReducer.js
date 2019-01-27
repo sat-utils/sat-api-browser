@@ -49,6 +49,65 @@ function createCentersCollection(features) {
   return centersCollection;
 }
 
+const setActiveImageItem = (state, payload) => {
+  const { imageId } = payload;
+  let newState;
+  if (imageId === state.get('activeImageId')) {
+    newState = state;
+  } else {
+    const {
+      filteredItemsSource,
+      //activeImageItemSource,
+      //activeImageItem,
+      //activeImagePoint
+    } = stylesheetConstants;
+
+    const features = state
+      .getIn([
+        'style',
+        'sources',
+        filteredItemsSource,
+        'data',
+        'features']);
+
+    const imageItem = features
+      .find(feature => feature.get('id') === imageId);
+
+    const imageItemJS = imageItem.toJS();
+    const viewport = getViewport(state, imageItemJS);
+    /* eslint-disable-next-line */
+    //const href = imageItemJS.assets.primary.href;
+    //const imagePath = url.parse(href).path.split('.')[0];
+    //const tilePath = `https://tiles.openaerialmap.org${imagePath}`;
+
+    newState = state.withMutations((tempState) => {
+      tempState.set('activeImageItemId', imageId);
+      tempState.setIn(['style', 'center'], fromJS(viewport.center));
+      tempState.setIn(['style', 'zoom'], viewport.zoom - 0.5);
+      //tempState.setIn(
+        //['style', 'sources', activeImageItemSource, 'url'], tilePath
+      //);
+      //tempState.updateIn(
+        //['style', 'layers'],
+        //(layers) => {
+          //const index = layers
+            //.findIndex(layer => layer.get('id') === activeImageItem);
+          //return layers.setIn([index, 'layout', 'visibility'], 'visible');
+        //}
+      //);
+      //tempState.updateIn(
+        //['style', 'layers'],
+        //(layers) => {
+          //const index = layers
+            //.findIndex(layer => layer.get('id') === activeImagePoint);
+          //return layers.setIn([index, 'filter', 2], imageId);
+        //}
+      //);
+    });
+  }
+  return newState;
+};
+
 function setFilteredDataSource(state, payload) {
   const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
   const { json, filter } = payload;
@@ -101,6 +160,9 @@ export default function stylesheetReducer(state = initialState, action) {
       });
     }
 
+    case actions.SET_ACTIVE_IMAGE_ITEM: {
+      return setActiveImageItem(state, action.payload);
+    }
     default: {
       return state;
     }
