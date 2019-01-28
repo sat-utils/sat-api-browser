@@ -73,7 +73,7 @@ const addLayers = (map) => {
     id: activeImagePoint,
     type: 'circle',
     source: imagePointsSource,
-    filter: ['==', ['get', 'id'], 0],
+    filter: ['==', ['id'], 0],
     paint: {
       'circle-color': '#ff3333',
       'circle-radius': 8,

@@ -59,7 +59,7 @@ const setActiveImageItem = (state, payload) => {
       filteredItemsSource,
       //activeImageItemSource,
       //activeImageItem,
-      //activeImagePoint
+      activeImagePoint
     } = stylesheetConstants;
 
     const features = state
@@ -95,14 +95,14 @@ const setActiveImageItem = (state, payload) => {
           //return layers.setIn([index, 'layout', 'visibility'], 'visible');
         //}
       //);
-      //tempState.updateIn(
-        //['style', 'layers'],
-        //(layers) => {
-          //const index = layers
-            //.findIndex(layer => layer.get('id') === activeImagePoint);
-          //return layers.setIn([index, 'filter', 2], imageId);
-        //}
-      //);
+      tempState.updateIn(
+        ['style', 'layers'],
+        (layers) => {
+          const index = layers
+            .findIndex(layer => layer.get('id') === activeImagePoint);
+          return layers.setIn([index, 'filter', 2], imageId);
+        }
+      );
     });
   }
   return newState;
