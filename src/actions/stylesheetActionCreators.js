@@ -39,11 +39,11 @@ export function startDrawing() {
   };
 }
 
-export function drawingCompleted(geometry) {
+export function drawingCompleted(feature) {
   return {
     type: types.DRAWING_COMPLETED,
     payload: {
-      geometry
+      feature
     }
   };
 }

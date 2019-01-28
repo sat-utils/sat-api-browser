@@ -1,4 +1,5 @@
 import { Map, fromJS } from 'immutable';
+import bbox from '@turf/bbox';
 import * as actions from '../constants/action_types';
 import { loading, none, completed } from '../constants/applicationConstants';
 
@@ -28,6 +29,14 @@ export default function queryReducer(state = initialState, action) {
         currentFilter: fromJS(filter)
       });
     }
+    case actions.DRAWING_COMPLETED: {
+      const { payload: { feature } } = action;
+      const bounds = bbox(feature);
+      return state.merge({
+        bbox: bounds
+      });
+    }
+
     default: {
       return state;
     }

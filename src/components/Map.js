@@ -159,8 +159,11 @@ const addDrawControl = (map, drawingCompleted) => {
   const draw = new MapboxDraw(options);
   map.addControl(draw);
   map.on('draw.create', (e) => {
+    const { features } = e;
+    const feature = features[0];
     map.getCanvas().style.cursor = '';
-    drawingCompleted(e);
+    setTimeout(() => draw.changeMode('static'), 0);
+    drawingCompleted(feature);
   });
   return draw;
 };
@@ -242,10 +245,6 @@ class Map extends Component {
     this.map.getCanvas().style.cursor = 'crosshair';
   }
 
-  deactivateDraw() {
-    this.draw.changeMode('static');
-  }
-
   componentDidMount() {
     const { drawingCompleted } = this.props;
     const {
@@ -324,8 +323,6 @@ class Map extends Component {
     }
     if (drawing) {
       this.activateDraw();
-    } else {
-      this.deactivateDraw();
     }
   }
 

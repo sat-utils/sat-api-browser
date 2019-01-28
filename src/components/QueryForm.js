@@ -11,7 +11,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import FormikDatePicker from './FormikDatePicker';
 import { fetchFilteredItems } from '../actions/queryActions';
 import { startDrawing } from '../actions/stylesheetActionCreators';
-import { getQueryStatus } from '../reducers/querySelectors';
+import { getQueryStatus, getBbox } from '../reducers/querySelectors';
 import { loading } from '../constants/applicationConstants';
 import ProgressButton from './ProgressButton';
 
@@ -103,13 +103,14 @@ const EnhancedForm = withFormik({
   }),
 
   handleSubmit: (values, { props, setSubmitting }) => {
-    const { fetchFilteredItemsAction } = props;
+    const { fetchFilteredItemsAction, bbox } = props;
     const {
       startdatetime,
       enddatetime
     } = values;
     const filter = {
       limit,
+      bbox,
       time: `${startdatetime}/${enddatetime}`,
       query: {
         collection: {
@@ -123,7 +124,8 @@ const EnhancedForm = withFormik({
 })(QueryForm);
 
 const mapStateToProps = state => ({
-  status: getQueryStatus(state)
+  status: getQueryStatus(state),
+  bbox: getBbox(state)
 });
 
 QueryForm.propTypes = {

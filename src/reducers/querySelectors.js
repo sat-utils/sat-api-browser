@@ -5,6 +5,7 @@ import { completed } from '../constants/applicationConstants';
 const getActiveQueryTabState = state => state.query.get('activeQueryTab');
 const getStatusState = state => state.query.get('status');
 const getCurrentFilterState = state => state.query.get('currentFilter');
+const getBboxState = state => state.query.get('bbox');
 
 export const getActiveQueryTab = createSelector(
   [getActiveQueryTabState],
@@ -19,6 +20,11 @@ export const getCurrentFilter = createSelector(
 export const getQueryStatus = createSelector(
   [getStatusState],
   status => status
+);
+
+export const getBbox = createSelector(
+  [getBboxState],
+  bbox => bbox
 );
 
 export const getResultsTabDisabled = createSelector(
