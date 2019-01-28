@@ -5,6 +5,9 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import mapboxgl from 'mapbox-gl';
+import MapboxDraw from '@mapbox/mapbox-gl-draw';
+import DrawRectangle from 'mapbox-gl-draw-rectangle-mode';
+import StaticMode from '@mapbox/mapbox-gl-draw-static-mode';
 import { diff } from '@mapbox/mapbox-gl-style-spec';
 import withWidth from '@material-ui/core/withWidth';
 import * as stylesheetActionCreators
@@ -144,6 +147,24 @@ const mapClickHandler = (e, setActiveImageItem) => {
   }
 };
 
+const addDrawControl = (map, drawingCompleted) => {
+  const { modes } = MapboxDraw;
+  modes.draw_rectangle = DrawRectangle;
+  modes.static = StaticMode;
+  const options = {
+    modes,
+    boxSelect: false,
+    displayControlsDefault: false,
+  };
+  const draw = new MapboxDraw(options);
+  map.addControl(draw);
+  map.on('draw.create', (e) => {
+    map.getCanvas().style.cursor = '';
+    drawingCompleted(e);
+  });
+  return draw;
+};
+
 class Map extends Component {
   constructor(props) {
     super(props);
@@ -215,7 +236,18 @@ class Map extends Component {
     });
   }
 
+  activateDraw() {
+    this.draw.deleteAll();
+    this.draw.changeMode('draw_rectangle');
+    this.map.getCanvas().style.cursor = 'crosshair';
+  }
+
+  deactivateDraw() {
+    this.draw.changeMode('static');
+  }
+
   componentDidMount() {
+    const { drawingCompleted } = this.props;
     const {
       setStyle,
       setStyleSucceeded,
@@ -236,6 +268,7 @@ class Map extends Component {
       };
       this.hoverId = 0;
       const map = new mapboxgl.Map(mapConfig);
+      this.draw = addDrawControl(map, drawingCompleted);
       map.on('load', () => {
         addSources(map);
         addLayers(map);
@@ -283,10 +316,16 @@ class Map extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { style } = this.props;
+    const { drawing } = nextProps;
     const nextStyle = nextProps.style;
     //  if (!Immutable.is(style, nextStyle)) {
     if (style !== nextStyle) {
       this.applyStyleChanges(style.toJS(), nextStyle.toJS());
+    }
+    if (drawing) {
+      this.activateDraw();
+    } else {
+      this.deactivateDraw();
     }
   }
 
@@ -324,7 +363,8 @@ Map.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  style: stylesheetSelectors.getStyle(state)
+  style: stylesheetSelectors.getStyle(state),
+  drawing: stylesheetSelectors.getDrawing(state)
 });
 
 const mapDispatchToProps = dispatch => (

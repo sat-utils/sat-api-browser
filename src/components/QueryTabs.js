@@ -49,6 +49,10 @@ const QueryTabs = (props) => {
           label="Results"
           disabled={resultsDisabled}
         />
+        <Tab
+          label="Candidates"
+          disabled
+        />
       </Tabs>
       {activeContent}
     </div>

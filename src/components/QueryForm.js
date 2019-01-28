@@ -6,8 +6,11 @@ import { withStyles } from '@material-ui/core/styles';
 import { Persist } from 'formik-persist';
 import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
+import Button from '@material-ui/core/Button';
+import CreateIcon from '@material-ui/icons/Create';
 import FormikDatePicker from './FormikDatePicker';
 import { fetchFilteredItems } from '../actions/queryActions';
+import { startDrawing } from '../actions/stylesheetActionCreators';
 import { getQueryStatus } from '../reducers/querySelectors';
 import { loading } from '../constants/applicationConstants';
 import ProgressButton from './ProgressButton';
@@ -36,6 +39,7 @@ export const QueryForm = (props) => {
     values,
     isValid,
     status,
+    startDrawingAction,
     ...formikFieldProps
   } = props;
   return (
@@ -61,6 +65,17 @@ export const QueryForm = (props) => {
             values={values}
             {...formikFieldProps}
           />
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.Button}
+            onClick={startDrawingAction}
+          >
+            Draw Bbox on Map
+            <CreateIcon
+              className={classes.rightIcon}
+            />
+          </Button>
           <br />
           <br />
           <div className={classes.submit}>
@@ -115,5 +130,8 @@ QueryForm.propTypes = {
   fetchFilteredItemsAction: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = { fetchFilteredItemsAction: fetchFilteredItems };
+const mapDispatchToProps = {
+  fetchFilteredItemsAction: fetchFilteredItems,
+  startDrawingAction: startDrawing
+};
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(EnhancedForm));

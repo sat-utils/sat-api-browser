@@ -32,3 +32,18 @@ export function setActiveImageItem(imageId) {
     }
   };
 }
+
+export function startDrawing() {
+  return {
+    type: types.START_DRAWING
+  };
+}
+
+export function drawingCompleted(geometry) {
+  return {
+    type: types.DRAWING_COMPLETED,
+    payload: {
+      geometry
+    }
+  };
+}

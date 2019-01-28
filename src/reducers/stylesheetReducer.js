@@ -139,7 +139,8 @@ function setFilteredDataSource(state, payload) {
 const initialState = Map({
   style: fromJS({}),
   activeImageItemId: 0,
-  highestId: 0
+  highestId: 0,
+  drawing: false
 });
 
 export default function stylesheetReducer(state = initialState, action) {
@@ -163,6 +164,19 @@ export default function stylesheetReducer(state = initialState, action) {
     case actions.SET_ACTIVE_IMAGE_ITEM: {
       return setActiveImageItem(state, action.payload);
     }
+
+    case actions.START_DRAWING: {
+      return state.merge({
+        drawing: true
+      });
+    }
+
+    case actions.DRAWING_COMPLETED: {
+      return state.merge({
+        drawing: false
+      });
+    }
+
     default: {
       return state;
     }

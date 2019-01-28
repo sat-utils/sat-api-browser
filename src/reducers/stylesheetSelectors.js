@@ -53,3 +53,9 @@ export const getActiveImageItemTMS = createSelector(
     return `${activeImageItemUrl}/{z}/{x}/{y}`;
   }
 );
+
+const getDrawingState = state => state.stylesheet.get('drawing');
+export const getDrawing = createSelector(
+  [getDrawingState],
+  drawing => drawing
+);
