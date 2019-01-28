@@ -8,10 +8,13 @@ import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import CreateIcon from '@material-ui/icons/Create';
+import Chip from '@material-ui/core/Chip';
+import PictureIcon from '@material-ui/icons/PictureInPicture';
 import FormikDatePicker from './FormikDatePicker';
 import { fetchFilteredItems } from '../actions/queryActions';
 import { startDrawing } from '../actions/stylesheetActionCreators';
 import { getQueryStatus, getBbox } from '../reducers/querySelectors';
+import { getDrawing } from '../reducers/stylesheetSelectors';
 import { loading } from '../constants/applicationConstants';
 import ProgressButton from './ProgressButton';
 
@@ -28,6 +31,9 @@ const styles = theme => ({
   },
   rightIcon: {
     marginLeft: theme.spacing.unit
+  },
+  label: {
+    marginTop: theme.spacing.unit * 2
   }
 });
 
@@ -40,8 +46,21 @@ export const QueryForm = (props) => {
     isValid,
     status,
     startDrawingAction,
+    bbox,
+    drawing,
     ...formikFieldProps
   } = props;
+  let bboxCoords;
+  if (bbox) {
+    bboxCoords = (
+      <Chip
+        icon={<PictureIcon />}
+        label="BBOX"
+      />
+    );
+  } else {
+    bboxCoords = <div />;
+  }
   return (
     <Grid
       container
@@ -65,10 +84,17 @@ export const QueryForm = (props) => {
             values={values}
             {...formikFieldProps}
           />
+          <FormLabel
+            component="legend"
+            className={classes.label}
+          >
+            Area Of Interest
+          </FormLabel>
           <Button
             variant="contained"
             color="primary"
-            className={classes.Button}
+            className={classes.button}
+            disabled={drawing}
             onClick={startDrawingAction}
           >
             Draw Bbox on Map
@@ -76,6 +102,7 @@ export const QueryForm = (props) => {
               className={classes.rightIcon}
             />
           </Button>
+          {bboxCoords}
           <br />
           <br />
           <div className={classes.submit}>
@@ -103,11 +130,16 @@ const EnhancedForm = withFormik({
   }),
 
   handleSubmit: (values, { props, setSubmitting }) => {
-    const { fetchFilteredItemsAction, bbox } = props;
+    const {
+      fetchFilteredItemsAction,
+      bbox
+    } = props;
+
     const {
       startdatetime,
       enddatetime
     } = values;
+
     const filter = {
       limit,
       bbox,
@@ -125,7 +157,8 @@ const EnhancedForm = withFormik({
 
 const mapStateToProps = state => ({
   status: getQueryStatus(state),
-  bbox: getBbox(state)
+  bbox: getBbox(state),
+  drawing: getDrawing(state)
 });
 
 QueryForm.propTypes = {

@@ -78,7 +78,7 @@ const setActiveImageItem = (state, payload) => {
     /* eslint-disable-next-line */
     //const href = imageItemJS.assets.primary.href;
     //const imagePath = url.parse(href).path.split('.')[0];
-    //const tilePath = `https://tiles.openaerialmap.org${imagePath}`;
+    //const tilePath = `https://tilerurl/${imagePath}`;
 
     newState = state.withMutations((tempState) => {
       tempState.set('activeImageItemId', imageId);
