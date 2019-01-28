@@ -35,6 +35,7 @@ const styles = theme => ({
   label: {
     marginTop: theme.spacing.unit * 2
   }
+
 });
 
 export const QueryForm = (props) => {
@@ -108,7 +109,7 @@ export const QueryForm = (props) => {
           <div className={classes.submit}>
             <ProgressButton
               type="submit"
-              disabled={!isValid || status === loading}
+              disabled={!isValid || !bbox || status === loading}
               label="Submit Query"
               status={status}
               onClick={handleSubmit}
@@ -126,8 +127,16 @@ export const QueryForm = (props) => {
 const EnhancedForm = withFormik({
   mapPropsToValues: () => ({
     startdatetime: new Date().toISOString().substring(0, 16),
-    enddatetime: new Date().toISOString().substring(0, 16)
+    enddatetime: new Date().toISOString().substring(0, 16),
   }),
+
+  validate: (values) => {
+    const errors = {};
+    if (values.startdatetime >= values.enddatetime) {
+      errors.startdatetime = 'Start Date must be before End Date';
+    }
+    return errors;
+  },
 
   handleSubmit: (values, { props, setSubmitting }) => {
     const {
