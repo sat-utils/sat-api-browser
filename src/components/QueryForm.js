@@ -10,12 +10,14 @@ import Button from '@material-ui/core/Button';
 import CreateIcon from '@material-ui/icons/Create';
 import Chip from '@material-ui/core/Chip';
 import PictureIcon from '@material-ui/icons/PictureInPicture';
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import FormikDatePicker from './FormikDatePicker';
 import { fetchFilteredItems } from '../actions/queryActions';
 import { startDrawing } from '../actions/stylesheetActionCreators';
 import { getQueryStatus, getBbox } from '../reducers/querySelectors';
 import { getDrawing } from '../reducers/stylesheetSelectors';
-import { loading } from '../constants/applicationConstants';
+import { loading, failed } from '../constants/applicationConstants';
 import ProgressButton from './ProgressButton';
 
 const limit = process.env.REACT_APP_RESULT_LIMIT;
@@ -34,8 +36,10 @@ const styles = theme => ({
   },
   label: {
     marginTop: theme.spacing.unit * 2
+  },
+  error: {
+    backgroundColor: theme.palette.error.dark,
   }
-
 });
 
 export const QueryForm = (props) => {
@@ -120,6 +124,19 @@ export const QueryForm = (props) => {
           />
         </form>
       </Grid>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={status === failed}
+      >
+        <SnackbarContent
+          className={classes.error}
+          aria-describedby="client-snackbar"
+          message={<span id="message-id">There was an error with your query</span>}
+        />
+      </Snackbar>
     </Grid>
   );
 };

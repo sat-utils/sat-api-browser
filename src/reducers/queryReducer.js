@@ -1,7 +1,12 @@
 import { Map, fromJS } from 'immutable';
 import bbox from '@turf/bbox';
 import * as actions from '../constants/action_types';
-import { loading, none, completed } from '../constants/applicationConstants';
+import {
+  loading,
+  none,
+  completed,
+  failed
+} from '../constants/applicationConstants';
 
 const initialState = Map({
   activeQueryTab: 0,
@@ -27,6 +32,11 @@ export default function queryReducer(state = initialState, action) {
         status: completed,
         activeQueryTab: 1,
         currentFilter: fromJS(filter)
+      });
+    }
+    case actions.FETCH_FILTERED_ITEMS_FAILED: {
+      return state.merge({
+        status: failed
       });
     }
     case actions.DRAWING_COMPLETED: {
