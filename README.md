@@ -1,10 +1,35 @@
+
+## sat-api-browser
+A query constructor and results visualizer for [stac-spec](https://github.com/radiantearth/stac-spec/tree/master/api-spec)
+compliant APIs.
+
+## Intent
+The STAC `api-spec` provides a powerful interface for querying and filtering
+data represented as STAC catalogs. But constructing appropriate queries to find
+datasets that meet your criteria can be difficult when done manually do to the
+verbose query language.  The `sat-api-browser`'s intent is to simplify this
+query construction by providing a UI which lets users use STAC extension
+[schemas](https://github.com/radiantearth/stac-spec/tree/master/extensions) to
+build and validate queries with a simple UI. 
+
+Once the user has received the results of the query, they can select candidate
+items and save them to a list to quickly and seamlessly build
+large lists of datasets (represented as STAC items) that they can use in other
+applications.  This provides the ability to query and search for data in a more
+iterative fashion rather than attempting to build a single all encompassing query
+to capture results.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+### `yarn install`
+Installs necessary dependencies.
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `yarn start`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -12,12 +37,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-### `npm test`
+### `yarn test`
+Runs the tap based unit tests.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
+### `yarn run build`
 
 Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -25,44 +48,38 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The following environment variables are required.  You can copy and rename `.env.sample` to `.env` for use as a template.<br>
+`SKIP_PREFLIGHT_CHECK=true`
+`REACT_APP_API_URL` The URL with port of the oam-api.<br>
+`REACT_APP_MAPBOX_ACCESS_TOKEN`<br>
+`REACT_APP_RESULT_LIMIT`
 
-### `npm run eject`
+### Design Approach
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The application uses [Redux](https://redux.js.org/) for state management.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+The Redux [store](https://redux.js.org/basics/store) is a vanilla JS object but each logical state slice is an [ImmutableJS](https://facebook.github.io/immutable-js/) [map](https://facebook.github.io/immutable-js/docs/#/Map).  
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+State slices are never queried directly from the store but are accessed via [selectors](https://redux.js.org/recipes/computingderiveddata) which are memomized using the [Reselect](https://github.com/reduxjs/reselect) library where appropriate.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+The application design uses both Presentational and Container components but makes liberal use of [react-redux](https://react-redux.js.org/docs/introduction/basic-tutorial) `connect` as outlined [here](https://redux.js.org/faq/reactredux#should-i-only-connect-my-top-component-or-can-i-connect-multiple-components-in-my-tree).
 
-## Learn More
+State that is transient or does not affect other components in the application can be maintained directly in components where appropriate as described [here](https://redux.js.org/faq/organizingstate#do-i-have-to-put-all-my-state-into-redux-should-i-ever-use-reacts-setstate).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Pure stateless React [components](https://reactjs.org/docs/state-and-lifecycle.html) are preferred but Class components are used where local state is required.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Any impure actions which may have side effects (asynchronous API requests, interaction with browser local storage) are isolated in Redux [middleware](https://redux.js.org/advanced/middleware).
 
-### Code Splitting
+Cross-cutting actions are also managed through the use of middleware.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+The application uses [Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/api/) for map display and management.  When the `Map` React component mounts it loads a [style](https://www.mapbox.com/mapbox-gl-js/style-spec) and some GeoJSON data.  This state is then pushed into the Redux store where all subsequent actions act on this state and provide the Map component with the new updated style via props. A more detailed description of this approach is available in this blog [post](https://blog.mapbox.com/mapbox-gl-js-in-a-reactive-application-e08eecf0221b) by Tom Macwright.
 
-### Analyzing the Bundle Size
+The application uses [Material-UI](https://material-ui.com/) for UI components and styling.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+Individual component style [overrides](https://material-ui.com/customization/overrides/) are acheived using Material UIs own css injection with [JSS](https://cssinjs.org/?v=v9.8.7).
 
-### Making a Progressive Web App
+The application store is configured to support the [redux-devtools-extension](https://github.com/zalmoxisus/redux-devtools-extension) for advanced debugging with state rewind and fast forward.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Because the application makes extensive use of [HOCs](https://reactjs.org/docs/higher-order-components.html), wrapped components are exposed as the default export while raw components are available as a named component.  This allows for unit testing without invoking HOC behavior.
 
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+The application uses [tape-await](https://github.com/mbostock/tape-await) to simplify asynchronous test flow for middleware.
