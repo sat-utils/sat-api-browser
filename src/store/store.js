@@ -25,16 +25,16 @@ const store = createStore(
     reducer
   }),
   initialState,
-  //applyMiddleware(
-    //thunk,
-    //apiMiddleware
-  //)
-  composeEnhancers(
-    applyMiddleware(
-      thunk,
-      apiMiddleware
-    )
+  applyMiddleware(
+    thunk,
+    apiMiddleware
   )
+  //composeEnhancers(
+    //applyMiddleware(
+      //thunk,
+      //apiMiddleware
+    //)
+  //)
 );
 
 export default store;

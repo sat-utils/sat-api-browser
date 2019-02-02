@@ -730,6 +730,18 @@
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-transform-typescript" "^7.1.0"
 
+"@babel/register@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@babel/register/-/register-7.0.0.tgz#fa634bae1bfa429f60615b754fc1f1d745edd827"
+  dependencies:
+    core-js "^2.5.7"
+    find-cache-dir "^1.0.0"
+    home-or-tmp "^3.0.0"
+    lodash "^4.17.10"
+    mkdirp "^0.5.1"
+    pirates "^4.0.0"
+    source-map-support "^0.5.9"
+
 "@babel/runtime@7.1.2":
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.1.2.tgz#81c89935f4647706fc54541145e6b4ecfef4b8e3"
@@ -1687,10 +1699,6 @@ babel-plugin-named-asset-import@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-named-asset-import/-/babel-plugin-named-asset-import-0.3.0.tgz#3289ec622d19cd1cc84df8d784b41f1b048bd524"
 
-babel-plugin-rewire@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-rewire/-/babel-plugin-rewire-1.2.0.tgz#822562d72ed2c84e47c0f95ee232c920853e9d89"
-
 babel-plugin-syntax-object-rest-spread@^6.13.0, babel-plugin-syntax-object-rest-spread@^6.8.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-syntax-object-rest-spread/-/babel-plugin-syntax-object-rest-spread-6.13.0.tgz#fd6536f2bce13836ffa3a5458c4903a597bb3bf5"
@@ -2524,6 +2532,10 @@ core-js@^1.0.0:
 core-js@^2.4.0, core-js@^2.5.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.1.tgz#87416ae817de957a3f249b3b5ca475d4aaed6042"
+
+core-js@^2.5.7:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.3.tgz#4b70938bdffdaf64931e66e2db158f0892289c49"
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -3887,6 +3899,13 @@ filesize@3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/filesize/-/filesize-3.6.1.tgz#090bb3ee01b6f801a8a8be99d31710b3422bb317"
 
+fill-keys@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/fill-keys/-/fill-keys-1.0.2.tgz#9a8fa36f4e8ad634e3bf6b4f3c8882551452eb20"
+  dependencies:
+    is-object "~1.0.1"
+    merge-descriptors "~1.0.0"
+
 fill-range@^2.1.0:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-2.2.4.tgz#eb1e773abb056dcd8df2bfdf6af59b8b3a936565"
@@ -4501,6 +4520,10 @@ home-or-tmp@^2.0.0:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.1"
 
+home-or-tmp@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/home-or-tmp/-/home-or-tmp-3.0.0.tgz#57a8fe24cf33cdd524860a15821ddc25c86671fb"
+
 homedir-polyfill@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/homedir-polyfill/-/homedir-polyfill-1.0.1.tgz#4c2bbc8a758998feebf5ed68580f76d46768b4bc"
@@ -5053,6 +5076,10 @@ is-number@^4.0.0:
 is-obj@^1.0.0, is-obj@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/is-obj/-/is-obj-1.0.1.tgz#3e4729ac1f5fde025cd7d83a896dab9f4f67db0f"
+
+is-object@~1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/is-object/-/is-object-1.0.1.tgz#8952688c5ec2ffd6b03ecc85e769e02903083470"
 
 is-path-cwd@^1.0.0:
   version "1.0.0"
@@ -6136,7 +6163,7 @@ merge-deep@^3.0.2:
     clone-deep "^0.2.4"
     kind-of "^3.0.2"
 
-merge-descriptors@1.0.1:
+merge-descriptors@1.0.1, merge-descriptors@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
 
@@ -6324,6 +6351,10 @@ mkdirp@0.5.1, mkdirp@0.5.x, mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkdirp@
   dependencies:
     minimist "0.0.8"
 
+module-not-found-error@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/module-not-found-error/-/module-not-found-error-1.0.1.tgz#cf8b4ff4f29640674d6cdd02b0e3bc523c2bbdc0"
+
 monotone-convex-hull-2d@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/monotone-convex-hull-2d/-/monotone-convex-hull-2d-1.0.1.tgz#47f5daeadf3c4afd37764baa1aa8787a40eee08c"
@@ -6484,6 +6515,10 @@ node-libs-browser@^2.0.0:
     url "^0.11.0"
     util "^0.10.3"
     vm-browserify "0.0.4"
+
+node-modules-regexp@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/node-modules-regexp/-/node-modules-regexp-1.0.0.tgz#8d9dbe28964a4ac5712e9131642107c71e90ec40"
 
 node-notifier@^5.2.1:
   version "5.3.0"
@@ -7009,6 +7044,12 @@ pinkie-promise@^2.0.0:
 pinkie@^2.0.0:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/pinkie/-/pinkie-2.0.4.tgz#72556b80cfa0d48a974e80e77248e80ed4f7f870"
+
+pirates@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/pirates/-/pirates-4.0.0.tgz#850b18781b4ac6ec58a43c9ed9ec5fe6796addbd"
+  dependencies:
+    node-modules-regexp "^1.0.0"
 
 pkg-dir@^1.0.0:
   version "1.0.0"
@@ -7711,6 +7752,14 @@ proxy-addr@~2.0.4:
     forwarded "~0.1.2"
     ipaddr.js "1.8.0"
 
+proxyquire@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/proxyquire/-/proxyquire-2.1.0.tgz#c2263a38bf0725f2ae950facc130e27510edce8d"
+  dependencies:
+    fill-keys "^1.0.2"
+    module-not-found-error "^1.0.0"
+    resolve "~1.8.1"
+
 prr@~1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/prr/-/prr-1.0.1.tgz#d3fc114ba06995a45ec6893f484ceb1d78f5f476"
@@ -8375,7 +8424,7 @@ resolve@1.1.7:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.1.7.tgz#203114d82ad2c5ed9e8e0411b3932875e889e97b"
 
-resolve@1.8.1:
+resolve@1.8.1, resolve@~1.8.1:
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.8.1.tgz#82f1ec19a423ac1fbd080b0bab06ba36e84a7a26"
   dependencies:
@@ -8851,6 +8900,13 @@ source-map-support@^0.4.15:
 source-map-support@^0.5.6, source-map-support@~0.5.6:
   version "0.5.9"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.9.tgz#41bc953b2534267ea2d605bccfa7bfa3111ced5f"
+  dependencies:
+    buffer-from "^1.0.0"
+    source-map "^0.6.0"
+
+source-map-support@^0.5.9:
+  version "0.5.10"
+  resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.10.tgz#2214080bc9d51832511ee2bab96e3c2f9353120c"
   dependencies:
     buffer-from "^1.0.0"
     source-map "^0.6.0"
