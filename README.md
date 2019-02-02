@@ -6,11 +6,11 @@ compliant APIs.
 ## Intent
 The STAC `api-spec` provides a powerful interface for querying and filtering
 data represented as STAC catalogs. But constructing appropriate queries to find
-datasets that meet your criteria can be difficult when done manually do to the
-verbose query language.  The `sat-api-browser`'s intent is to simplify this
+datasets that meet your criteria can be difficult when done manually due to the
+verbose query language defined by the standard.  The `sat-api-browser`'s intent is to simplify this
 query construction by providing a UI which lets users use STAC extension
 [schemas](https://github.com/radiantearth/stac-spec/tree/master/extensions) to
-build and validate queries with a simple UI. 
+build and validate queries. 
 
 Once the user has received the results of the query, they can select candidate
 items and save them to a list to quickly and seamlessly build
