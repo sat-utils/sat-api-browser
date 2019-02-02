@@ -1,0 +1,93 @@
+{
+  "sources": {
+    "composite": {
+      "type": "vector",
+      "url": "mapbox://mapbox.mapbox-terrain-v2,mapbox.mapbox-streets-v7"
+    },
+    "imagePointsSource": {
+      "type": "geojson",
+      "data": "/itemCentroids.geojson"
+    },
+    "filteredItemsSource": {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "crs": {
+          "type": "name",
+          "properties": {
+            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+          }
+        },
+        "features": []
+      }
+    },
+    "activeImageItemSource": {
+      "type": "raster",
+      "url": "mapbox://mapbox.streets",
+      "tileSize": 256
+    }
+  },
+  "layers": [
+    {
+      "id": "imageFootprints",
+      "type": "fill",
+      "source": "filteredItemsSource",
+      "paint": {
+        "fill-color": "#088",
+        "fill-opacity": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "get",
+            "gsd"
+          ],
+          0,
+          0.5,
+          100,
+          0.1
+        ]
+      }
+    },
+    {
+      "id": "activeImageItem",
+      "type": "raster",
+      "source": "activeImageItemSource",
+      "layout": {
+        "visibility": "none"
+      }
+    },
+    {
+      "id": "imagePoints",
+      "type": "circle",
+      "source": "imagePointsSource",
+      "filter": [
+        "==",
+        [
+          "get",
+          "id"
+        ],
+        0
+      ],
+      "paint": {
+        "circle-color": "#ff3333",
+        "circle-radius": [
+          "interpolate",
+          [
+            "linear"
+          ],
+          [
+            "zoom"
+          ],
+          5,
+          3,
+          10,
+          4
+        ],
+        "circle-stroke-width": 1,
+        "circle-stroke-color": "#fff"
+      }
+    }
+  ]
+}

@@ -57,8 +57,8 @@ const setActiveImageItem = (state, payload) => {
   } else {
     const {
       filteredItemsSource,
-      //activeImageItemSource,
-      //activeImageItem,
+      // activeImageItemSource,
+      // activeImageItem,
       activeImagePoint
     } = stylesheetConstants;
 
