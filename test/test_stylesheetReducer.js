@@ -44,11 +44,30 @@ test('stylesheet fetch items', (t) => {
   };
 
   const newState = stylesheetReducer(state, action);
-  const { filteredItemsSource } = stylesheetConstants;
-  const actualFilteredItemsSource = newState.getIn(
-    ['style', 'sources', filteredItemsSource, 'data']
+  const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
+  const actualFilteredItems = newState.getIn(
+    ['style', 'sources', filteredItemsSource, 'data', 'features']
   );
+  t.equal(actualFilteredItems.size, items.features.length,
+    'Loads all the items into filteredItemsSource');
 
-  t.ok(actualFilteredItemsSource.size, items.length);
+  const lastItemCalculatedId = actualFilteredItems.getIn(
+    [items.features.length - 1, 'id']
+  );
+  const lastItemStacId = actualFilteredItems.getIn(
+    [items.features.length - 1, 'stacId']
+  );
+  t.ok(lastItemStacId, 'Converts orignial id to stacId');
+  t.equal(lastItemCalculatedId, items.features.length,
+    'Calculates new index based ids for use with MapboxGL featurestate');
+
+  const highestId = newState.get('highestId');
+  t.equal(highestId, items.features.length, 'Sets new highestId index value');
+
+  const centers = newState.getIn(
+    ['style', 'sources', imagePointsSource, 'data', 'features']
+  );
+  t.equal(centers.size, items.features.length,
+    'Creates and loads centroid features for all the items');
   t.end();
 });
