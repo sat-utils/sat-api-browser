@@ -19,10 +19,12 @@ test('ProgressButton', (t) => {
     label: 'label'
   };
   let wrapper = shallow((<ProgressButton {...props} />));
-  t.equal(
-    wrapper.find(Button).length, 1,
-    'ImageItem always displays button'
-  );
+  const button = wrapper.find(Button);
+  t.equal(button.length, 1, 'ImageItem always displays button');
+
+  button.simulate('click');
+  t.ok(onClick.calledOnce, 'Handle click with onClick prop');
+
   t.equal(
     wrapper.find(CircularProgress).length, 1,
     'Renders CircularProgress when status is loading'
