@@ -6,3 +6,4 @@ require('@babel/register')({
 require('./test_apiMiddleware');
 require('./test_stylesheetSelectors');
 require('./test_stylesheetReducer');
+require('./test_ProgressButton.js');

@@ -21,7 +21,7 @@ const styles = theme => ({
   },
 });
 
-const ProgressButton = (props) => {
+export const ProgressButton = (props) => {
   const {
     classes,
     status,
