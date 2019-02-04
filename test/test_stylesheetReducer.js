@@ -33,7 +33,7 @@ test('stylesheetReducer set style', (t) => {
   t.end();
 });
 
-test('stylesheet fetch items', (t) => {
+test('stylesheetReducer', (t) => {
   const state = getBaseState();
   const action = {
     type: actions.FETCH_FILTERED_ITEMS_SUCCEEDED,
@@ -43,9 +43,13 @@ test('stylesheet fetch items', (t) => {
     }
   };
 
-  const newState = stylesheetReducer(state, action);
-  const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
-  const actualFilteredItems = newState.getIn(
+  const fetchItemsState = stylesheetReducer(state, action);
+  const {
+    filteredItemsSource,
+    imagePointsSource,
+    activeImagePoint
+  } = stylesheetConstants;
+  const actualFilteredItems = fetchItemsState.getIn(
     ['style', 'sources', filteredItemsSource, 'data', 'features']
   );
   t.equal(actualFilteredItems.size, items.features.length,
@@ -61,13 +65,30 @@ test('stylesheet fetch items', (t) => {
   t.equal(lastItemCalculatedId, items.features.length,
     'Calculates new index based ids for use with MapboxGL featurestate');
 
-  const highestId = newState.get('highestId');
+  const highestId = fetchItemsState.get('highestId');
   t.equal(highestId, items.features.length, 'Sets new highestId index value');
 
-  const centers = newState.getIn(
+  const centers = fetchItemsState.getIn(
     ['style', 'sources', imagePointsSource, 'data', 'features']
   );
   t.equal(centers.size, items.features.length,
     'Creates and loads centroid features for all the items');
+
+  const setActiveAction = {
+    type: actions.SET_ACTIVE_IMAGE_ITEM,
+    payload: {
+      imageId: 4
+    }
+  };
+
+  const activeImageState = stylesheetReducer(fetchItemsState, setActiveAction);
+  const layers = activeImageState.getIn(['style', 'layers']);
+  const index = layers
+    .findIndex(layer => layer.get('id') === activeImagePoint);
+  const id = layers.getIn([index, 'filter', 2]);
+  t.equal(id, setActiveAction.payload.imageId,
+    'Sets filter on activeImagePoint layer');
+  t.equal(activeImageState.get('activeImageItemId'),
+    setActiveAction.payload.imageId, 'Set activeImageItemId value');
   t.end();
 });
