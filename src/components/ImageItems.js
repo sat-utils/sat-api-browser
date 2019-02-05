@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import GridList from '@material-ui/core/GridList';
+import { withContentRect } from 'react-measure';
 import { setActiveImageItem } from '../actions/stylesheetActionCreators';
 import * as stylesheetSelectors from '../reducers/stylesheetSelectors';
 import ImageItem from './ImageItem';
@@ -12,6 +13,8 @@ export const ImageItems = (props) => {
     imageItems,
     setActiveImageItem: dispatchSetActiveImageItem,
     activeImageItemId,
+    measureRef,
+    contentRect
   } = props;
 
   const items = imageItems.map((item) => {
@@ -32,20 +35,37 @@ export const ImageItems = (props) => {
       />
     );
   });
+  const width = contentRect.client.width ? contentRect.client.width : 300;
   return (
-    <GridList
-      style={{ maxHeight: 'calc(100vh - 220px)', overflowY: 'scroll' }}
-      cellHeight={300}
-    >
-      {items}
-    </GridList>
+    <div ref={measureRef}>
+      <GridList
+        style={{ maxHeight: 'calc(100vh - 220px)', overflowY: 'scroll' }}
+        cellHeight={width / 2}
+      >
+        {items}
+      </GridList>
+    </div>
   );
 };
 
 ImageItems.propTypes = {
   imageItems: ImmutablePropTypes.list.isRequired,
   setActiveImageItem: PropTypes.func.isRequired,
-  activeImageItemId: PropTypes.number.isRequired
+  activeImageItemId: PropTypes.number.isRequired,
+  measureRef: PropTypes.func.isRequired,
+  contentRect: PropTypes.shape({
+    client: PropTypes.shape({
+      width: PropTypes.number
+    })
+  })
+};
+
+ImageItems.defaultProps = {
+  contentRect: {
+    client: {
+      width: 300
+    }
+  }
 };
 
 const mapStateToProps = state => ({
@@ -55,4 +75,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { setActiveImageItem };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ImageItems);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  withContentRect('client')(ImageItems)
+);
