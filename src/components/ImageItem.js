@@ -35,14 +35,17 @@ class ImageItem extends React.Component {
     this.compRef = React.createRef();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { id, activeImageItemId } = this.props;
-    if (id === activeImageItemId) {
-      const compNode = ReactDOM.findDOMNode(this.compRef.current);
-      scrollIntoView(compNode, {
-        behavior: 'smooth',
-        scrollMode: 'if-needed'
-      });
+    const { activeImageItemId: previousActiveImageId } = prevProps;
+    if (previousActiveImageId !== activeImageItemId) {
+      if (id === activeImageItemId) {
+        const compNode = ReactDOM.findDOMNode(this.compRef.current);
+        scrollIntoView(compNode, {
+          behavior: 'smooth',
+          scrollMode: 'if-needed'
+        });
+      }
     }
   }
 
