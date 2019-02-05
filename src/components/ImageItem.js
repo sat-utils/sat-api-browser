@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import scrollIntoView from 'scroll-into-view-if-needed';
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const styles = () => ({
   tile: {
@@ -56,6 +56,8 @@ class ImageItem extends React.Component {
       activeImageItemId,
       cols = 1,
       classes,
+      width,
+      scrollPosition,
       ...other
     } = this.props;
 
@@ -68,7 +70,13 @@ class ImageItem extends React.Component {
         onClick={() => setActiveImageItem(id)}
         ref={this.compRef}
       >
-        <img src={thumbnail} alt={stacId} />
+        <LazyLoadImage
+          scrollPosition={scrollPosition}
+          height={width}
+          width={width}
+          src={thumbnail}
+          alt={stacId}
+        />
         <GridListTileBar
           classes={{
             title: classes.title,
