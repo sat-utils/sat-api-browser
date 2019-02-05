@@ -42,7 +42,7 @@ const styles = theme => ({
   }
 });
 
-export const QueryForm = (props) => {
+export const InnerForm = (props) => {
   const {
     classes,
     handleSubmit,
@@ -141,7 +141,7 @@ export const QueryForm = (props) => {
   );
 };
 
-const EnhancedForm = withFormik({
+export const EnhancedForm = withFormik({
   mapPropsToValues: () => ({
     startdatetime: new Date().toISOString().substring(0, 16),
     enddatetime: new Date().toISOString().substring(0, 16),
@@ -189,7 +189,7 @@ const EnhancedForm = withFormik({
     fetchFilteredItemsAction(filter);
     setSubmitting(false);
   }
-})(QueryForm);
+})(InnerForm);
 
 const mapStateToProps = state => ({
   status: getQueryStatus(state),
@@ -197,7 +197,7 @@ const mapStateToProps = state => ({
   drawing: getDrawing(state)
 });
 
-QueryForm.propTypes = {
+InnerForm.propTypes = {
   fetchFilteredItemsAction: PropTypes.func.isRequired
 };
 
