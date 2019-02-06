@@ -50,7 +50,7 @@ export default function queryReducer(state = initialState, action) {
 
     case actions.ADD_PROPERTY_TO_QUERY: {
       const { payload: { property } } = action;
-      return state.setIn(['queryProperties', property.name, property]);
+      return state.setIn(['queryProperties', property.name], fromJS(property));
     }
 
     default: {

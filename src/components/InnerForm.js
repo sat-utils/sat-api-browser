@@ -14,6 +14,7 @@ import FormikDatePicker from './FormikDatePicker';
 import { loading, failed } from '../constants/applicationConstants';
 import ProgressButton from './ProgressButton';
 import PropertySelector from './PropertySelector';
+import PropertyFilters from './PropertyFilters';
 
 const styles = theme => ({
   button: {
@@ -47,6 +48,7 @@ export const InnerForm = (props) => {
     startDrawingAction,
     bbox,
     drawing,
+    queryProperties,
     ...formikFieldProps
   } = props;
 
@@ -105,6 +107,10 @@ export const InnerForm = (props) => {
           {bboxCoords}
           <br />
           <PropertySelector />
+          <PropertyFilters
+            values={values}
+            {...formikFieldProps}
+          />
           <br />
           <div className={classes.submit}>
             <ProgressButton
