@@ -13,6 +13,7 @@ import { Persist } from 'formik-persist';
 import FormikDatePicker from './FormikDatePicker';
 import { loading, failed } from '../constants/applicationConstants';
 import ProgressButton from './ProgressButton';
+import PropertySelector from './PropertySelector';
 
 const styles = theme => ({
   button: {
@@ -103,6 +104,7 @@ export const InnerForm = (props) => {
           </Button>
           {bboxCoords}
           <br />
+          <PropertySelector />
           <br />
           <div className={classes.submit}>
             <ProgressButton

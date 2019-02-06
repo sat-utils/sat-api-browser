@@ -11,7 +11,8 @@ import {
 const initialState = Map({
   activeQueryTab: 0,
   status: none,
-  currentFilter: fromJS({})
+  currentFilter: fromJS({}),
+  queryProperties: fromJS({})
 });
 
 export default function queryReducer(state = initialState, action) {
@@ -45,6 +46,11 @@ export default function queryReducer(state = initialState, action) {
       return state.merge({
         bbox: bounds
       });
+    }
+
+    case actions.ADD_PROPERTY_TO_QUERY: {
+      const { payload: { property } } = action;
+      return state.setIn(['queryProperties', property.name, property]);
     }
 
     default: {

@@ -25,3 +25,12 @@ export function setActiveQueryTab(tabIndex) {
     }
   };
 }
+
+export function addPropertyToQuery(property) {
+  return {
+    type: types.ADD_PROPERTY_TO_QUERY,
+    payload: {
+      property
+    }
+  };
+}

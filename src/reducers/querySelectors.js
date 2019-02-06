@@ -6,6 +6,12 @@ const getActiveQueryTabState = state => state.query.get('activeQueryTab');
 const getStatusState = state => state.query.get('status');
 const getCurrentFilterState = state => state.query.get('currentFilter');
 const getBboxState = state => state.query.get('bbox');
+const getQueryPropertiesState = state => state.query.get('queryProperties');
+
+export const getQueryProperties = createSelector(
+  [getQueryPropertiesState],
+  queryProperties => queryProperties
+);
 
 export const getActiveQueryTab = createSelector(
   [getActiveQueryTabState],
