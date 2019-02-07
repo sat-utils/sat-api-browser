@@ -22,10 +22,8 @@ const FormikTextField = (props) => {
     <TextField
       name={name}
       label={label}
-      variant="outlined"
-      margin="normal"
-      fullWidth
       value={value}
+      margin="normal"
       onChange={handleChange}
       onBlur={handleBlur}
       helperText={
@@ -34,6 +32,7 @@ const FormikTextField = (props) => {
         && String(fieldError))
         || helperText
       }
+      style={{ verticalAlign: 'unset', marginLeft: '10px' }}
       error={
         Boolean(errors[name] && touched[name])
       }

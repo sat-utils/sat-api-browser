@@ -1,32 +1,56 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
 import FormikTextField from './FormikTextField';
+import FormikSelector from './FormikSelector';
 import { getQueryProperties } from '../reducers/querySelectors';
+
+const styles = theme => ({
+  elements: {
+    margin: theme.spacing.unit
+  }
+});
 
 const PropertyFilters = (props) => {
   const {
     queryProperties,
     // eslint-disable-next-line
     values,
+    classes,
     ...formikFieldProps
   } = props;
   const propertyFilters = queryProperties.entrySeq().map(([key, value]) => {
     const title = value.get('title');
+    const type = value.get('type');
     return (
-      <FormikTextField
-        key={key}
-        name={key}
-        label={title}
-        values={values}
-        {...formikFieldProps}
-      />
+      <div key={key}>
+        <Chip
+          key={`${key}_label`}
+          label={title}
+          className={classes.elements}
+        />
+        <FormikSelector
+          name={`${key}_operator`}
+          values={values}
+          className={classes.elements}
+          {...formikFieldProps}
+        />
+        <FormikTextField
+          name={`${key}_value`}
+          label={type}
+          values={values}
+          className={classes.elements}
+          {...formikFieldProps}
+        />
+      </div>
     );
   });
   return (
-    <Fragment>
+    <div>
       {propertyFilters}
-    </Fragment>
+    </div>
   );
 };
 
@@ -38,4 +62,4 @@ const mapStateToProps = state => ({
   queryProperties: getQueryProperties(state)
 });
 
-export default connect(mapStateToProps)(PropertyFilters);
+export default connect(mapStateToProps)(withStyles(styles)(PropertyFilters));
