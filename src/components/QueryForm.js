@@ -12,6 +12,7 @@ export const EnhancedForm = withFormik({
   mapPropsToValues: () => ({
     startdatetime: new Date().toISOString().substring(0, 16),
     enddatetime: new Date().toISOString().substring(0, 16),
+    'eo:constellation_operator': '='
   }),
 
   validate: (values) => {

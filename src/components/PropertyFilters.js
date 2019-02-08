@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import FormikTextField from './FormikTextField';
-import FormikSelector from './FormikSelector';
+import OperatorSelector from './OperatorSelector';
 import { getQueryProperties } from '../reducers/querySelectors';
 
 const styles = theme => ({
@@ -31,9 +31,10 @@ const PropertyFilters = (props) => {
           label={title}
           className={classes.elements}
         />
-        <FormikSelector
+        <OperatorSelector
           name={`${key}_operator`}
           values={values}
+          onlyEq={type === 'string'}
           className={classes.elements}
           {...formikFieldProps}
         />
