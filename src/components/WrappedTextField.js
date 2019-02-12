@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { getIn } from 'formik';
 import TextField from '@material-ui/core/TextField';
 
-const FormikTextField = (props) => {
+const WrappedTextField = (props) => {
   const {
     name,
     handleChange,
@@ -11,7 +11,7 @@ const FormikTextField = (props) => {
     touched,
     errors,
     values,
-    label,
+    type,
     helperText
   } = props;
 
@@ -21,8 +21,9 @@ const FormikTextField = (props) => {
   return (
     <TextField
       name={name}
-      label={label}
-      value={value}
+      label={type}
+      type={type}
+      value={value || ''}
       margin="normal"
       onChange={handleChange}
       onBlur={handleBlur}
@@ -40,19 +41,19 @@ const FormikTextField = (props) => {
   );
 };
 
-FormikTextField.defaultProps = {
+WrappedTextField.defaultProps = {
   helperText: ''
 };
 
-FormikTextField.propTypes = {
+WrappedTextField.propTypes = {
   name: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleBlur: PropTypes.func.isRequired,
   touched: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   helperText: PropTypes.string
 };
 
-export default FormikTextField;
+export default WrappedTextField;

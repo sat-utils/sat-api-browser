@@ -17,9 +17,9 @@ export function fetchFilteredItems(filter) {
   };
 }
 
-export function setActiveQueryTab(tabIndex) {
+export function setActiveFilterTab(tabIndex) {
   return {
-    type: types.SET_ACTIVE_QUERY_TAB,
+    type: types.SET_ACTIVE_FILTER_TAB,
     payload: {
       tabIndex
     }

@@ -1,19 +1,23 @@
 import { connect } from 'react-redux';
 import { withFormik } from 'formik';
-import { fetchFilteredItems } from '../actions/queryActions';
+import { fetchFilteredItems } from '../actions/filterActions';
 import { startDrawing } from '../actions/stylesheetActionCreators';
-import { getQueryStatus, getBbox } from '../reducers/querySelectors';
+import { getFilterStatus, getBbox, getQueryProperties }
+  from '../reducers/filterSelectors';
 import { getDrawing } from '../reducers/stylesheetSelectors';
-import InnerForm from './InnerForm';
+import FilterForm from './FilterForm';
 
 const limit = process.env.REACT_APP_RESULT_LIMIT;
 
-export const EnhancedForm = withFormik({
-  mapPropsToValues: () => ({
-    startdatetime: new Date().toISOString().substring(0, 16),
-    enddatetime: new Date().toISOString().substring(0, 16),
-    'eo:constellation_operator': '='
-  }),
+export const FilterFormWrapper = withFormik({
+  mapPropsToValues: () => {
+    const initialValues = {
+      startdatetime: new Date().toISOString().substring(0, 16),
+      enddatetime: new Date().toISOString().substring(0, 16),
+      queryFilters: {}
+    };
+    return initialValues;
+  },
 
   validate: (values) => {
     const errors = {};
@@ -41,28 +45,38 @@ export const EnhancedForm = withFormik({
 
     const {
       startdatetime,
-      enddatetime
+      enddatetime,
+      queryFilters
     } = values;
 
+    const query = Object.keys(queryFilters).reduce((accum, key) => {
+      const filter = queryFilters[key];
+      const { operator, value } = filter;
+      // eslint-disable-next-line
+      accum[key] = {
+        [operator]: value
+      };
+      return accum;
+    }, {});
+    query.collection = {
+      eq: 'landsat-8-l1'
+    };
     const filter = {
       limit,
       bbox,
-      time: `${startdatetime}/${enddatetime}`,
-      query: {
-        collection: {
-          eq: 'landsat-8-l1'
-        }
-      }
+      query,
+      time: `${startdatetime}/${enddatetime}`
     };
     fetchFilteredItemsAction(filter);
     setSubmitting(false);
   }
-})(InnerForm);
+})(FilterForm);
 
 const mapStateToProps = state => ({
-  status: getQueryStatus(state),
+  status: getFilterStatus(state),
   bbox: getBbox(state),
-  drawing: getDrawing(state)
+  drawing: getDrawing(state),
+  queryProperties: getQueryProperties(state)
 });
 
 const mapDispatchToProps = {
@@ -70,4 +84,4 @@ const mapDispatchToProps = {
   startDrawingAction: startDrawing
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EnhancedForm);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterFormWrapper);

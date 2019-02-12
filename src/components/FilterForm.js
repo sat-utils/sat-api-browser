@@ -10,7 +10,7 @@ import PictureIcon from '@material-ui/icons/PictureInPicture';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { Persist } from 'formik-persist';
-import FormikDatePicker from './FormikDatePicker';
+import DatePicker from './DatePicker';
 import { loading, failed } from '../constants/applicationConstants';
 import ProgressButton from './ProgressButton';
 import PropertySelector from './PropertySelector';
@@ -37,7 +37,7 @@ const styles = theme => ({
   }
 });
 
-export const InnerForm = (props) => {
+export const FilterForm = (props) => {
   const {
     classes,
     handleSubmit,
@@ -74,13 +74,13 @@ export const InnerForm = (props) => {
           <FormLabel component="legend">
             Date Range
           </FormLabel>
-          <FormikDatePicker
+          <DatePicker
             name="startdatetime"
             label="Start Date"
             values={values}
             {...formikFieldProps}
           />
-          <FormikDatePicker
+          <DatePicker
             name="enddatetime"
             label="End Date"
             values={values}
@@ -105,7 +105,12 @@ export const InnerForm = (props) => {
             />
           </Button>
           {bboxCoords}
-          <br />
+          <FormLabel
+            component="legend"
+            className={classes.label}
+          >
+            Property Filters
+          </FormLabel>
           <PropertySelector />
           <PropertyFilters
             values={values}
@@ -122,7 +127,7 @@ export const InnerForm = (props) => {
             />
           </div>
           <Persist
-            name="query-form"
+            name="filter-form"
           />
         </form>
       </Grid>
@@ -143,8 +148,7 @@ export const InnerForm = (props) => {
   );
 };
 
-InnerForm.propTypes = {
-  fetchFilteredItemsAction: PropTypes.func.isRequired,
+FilterForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   setValues: PropTypes.func.isRequired,
   isValid: PropTypes.bool.isRequired,
@@ -154,4 +158,4 @@ InnerForm.propTypes = {
   drawing: PropTypes.bool.isRequired
 };
 
-export default withStyles(styles)(InnerForm);
+export default withStyles(styles)(FilterForm);

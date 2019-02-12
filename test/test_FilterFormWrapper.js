@@ -4,11 +4,11 @@ import test from 'tape';
 import sinon from 'sinon';
 import { shallow, configure } from 'enzyme';
 import { none } from '../src/constants/applicationConstants';
-import { EnhancedForm } from '../src/components/QueryForm';
+import { FilterFormWrapper } from '../src/components/FilterFormWrapper';
 
 configure({ adapter: new Adapter() });
 
-test('QueryForm', (t) => {
+test('FilterFormWrapper', (t) => {
   const fetchFilteredItemsAction = sinon.spy();
   const startDrawingAction = sinon.spy();
   const props = {
@@ -20,7 +20,7 @@ test('QueryForm', (t) => {
     classes: {}
   };
 
-  const wrapper = shallow((<EnhancedForm {...props} />));
+  const wrapper = shallow((<FilterFormWrapper {...props} />));
   const instance = wrapper.instance();
   let values = {
     startdatetime: new Date().toISOString().substring(0, 16),

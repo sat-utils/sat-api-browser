@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import { addPropertyToQuery } from '../actions/queryActions';
-import { getQueryProperties } from '../reducers/querySelectors';
+import { addPropertyToQuery } from '../actions/filterActions';
+import { getQueryProperties } from '../reducers/filterSelectors';
 import eo from '../stac_schemas/eo';
 
 const PropertySelector = (props) => {

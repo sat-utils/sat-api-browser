@@ -8,25 +8,31 @@ const OperatorSelector = (props) => {
     name,
     handleChange,
     values,
-    onlyEq
+    onlyEq,
   } = props;
 
   const value = getIn(values, name);
   let menuItems;
   if (onlyEq) {
-    menuItems = <MenuItem value="eq">Equal</MenuItem>;
+    menuItems = [
+      <MenuItem key="none" value="none" />,
+      <MenuItem key="eq" value="eq">=</MenuItem>
+    ];
   } else {
     menuItems = [
-      <MenuItem value="eq">Equals</MenuItem>,
-      <MenuItem value="lt">Less Than</MenuItem>,
-      <MenuItem value="gt">Greater Than</MenuItem>
+      <MenuItem key="none" value="none" />,
+      <MenuItem key="eq" value="eq">=</MenuItem>,
+      <MenuItem key="gt" value="gt">{'>'}</MenuItem>,
+      <MenuItem key="lt" value="lt">{'<'}</MenuItem>,
+      <MenuItem key="gte" value="gte">{'>='}</MenuItem>,
+      <MenuItem key="lte" value="lte">{'<='}</MenuItem>
     ];
   }
   return (
     <Fragment>
       <Select
         name={name}
-        value={onlyEq ? 'eq' : value}
+        value={value || 'none'}
         onChange={handleChange}
       >
         {menuItems}

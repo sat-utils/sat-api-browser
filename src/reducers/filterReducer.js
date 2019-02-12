@@ -9,17 +9,17 @@ import {
 } from '../constants/applicationConstants';
 
 const initialState = Map({
-  activeQueryTab: 0,
+  activeFilterTab: 0,
   status: none,
   currentFilter: fromJS({}),
   queryProperties: fromJS({})
 });
 
-export default function queryReducer(state = initialState, action) {
+export default function filterReducer(state = initialState, action) {
   switch (action.type) {
-    case actions.SET_ACTIVE_QUERY_TAB: {
+    case actions.SET_ACTIVE_FILTER_TAB: {
       return state.merge({
-        activeQueryTab: action.payload.tabIndex
+        activeFilterTab: action.payload.tabIndex
       });
     }
     case actions.FETCH_FILTERED_ITEMS: {
@@ -31,7 +31,7 @@ export default function queryReducer(state = initialState, action) {
       const { payload: { filter } } = action;
       return state.merge({
         status: completed,
-        activeQueryTab: 1,
+        activeFilterTab: 1,
         currentFilter: fromJS(filter)
       });
     }

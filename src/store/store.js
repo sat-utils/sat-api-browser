@@ -8,7 +8,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import reducer from '../reducers/reducer';
 import stylesheetReducer from '../reducers/stylesheetReducer';
-import queryReducer from '../reducers/queryReducer';
+import filterReducer from '../reducers/filterReducer';
 import apiMiddleware from './apiMiddleware';
 
 const composeEnhancers = composeWithDevTools({
@@ -21,7 +21,7 @@ const initialState = {};
 const store = createStore(
   combineReducers({
     stylesheet: stylesheetReducer,
-    query: queryReducer,
+    filter: filterReducer,
     reducer
   }),
   initialState,

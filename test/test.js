@@ -7,4 +7,4 @@ require('./test_apiMiddleware');
 require('./test_stylesheetSelectors');
 require('./test_stylesheetReducer');
 require('./test_ProgressButton.js');
-require('./test_QueryForm.js');
+require('./test_FilterFormWrapper.js');

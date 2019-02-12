@@ -2,20 +2,20 @@ import { createSelector } from 'reselect';
 import { getFilteredItems } from './stylesheetSelectors';
 import { completed } from '../constants/applicationConstants';
 
-const getActiveQueryTabState = state => state.query.get('activeQueryTab');
-const getStatusState = state => state.query.get('status');
-const getCurrentFilterState = state => state.query.get('currentFilter');
-const getBboxState = state => state.query.get('bbox');
-const getQueryPropertiesState = state => state.query.get('queryProperties');
+const getActiveFilterTabState = state => state.filter.get('activeFilterTab');
+const getStatusState = state => state.filter.get('status');
+const getCurrentFilterState = state => state.filter.get('currentFilter');
+const getBboxState = state => state.filter.get('bbox');
+const getQueryPropertiesState = state => state.filter.get('queryProperties');
 
 export const getQueryProperties = createSelector(
   [getQueryPropertiesState],
   queryProperties => queryProperties
 );
 
-export const getActiveQueryTab = createSelector(
-  [getActiveQueryTabState],
-  activeQueryTab => activeQueryTab
+export const getActiveFilterTab = createSelector(
+  [getActiveFilterTabState],
+  activeFilterTab => activeFilterTab
 );
 
 export const getCurrentFilter = createSelector(
@@ -23,7 +23,7 @@ export const getCurrentFilter = createSelector(
   currentFilter => currentFilter
 );
 
-export const getQueryStatus = createSelector(
+export const getFilterStatus = createSelector(
   [getStatusState],
   status => status
 );

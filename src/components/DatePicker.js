@@ -12,7 +12,7 @@ const styles = theme => ({
   },
 });
 
-const FormikDatePicker = (props) => {
+const DatePicker = (props) => {
   const {
     name,
     handleChange,
@@ -47,7 +47,7 @@ const FormikDatePicker = (props) => {
   );
 };
 
-FormikDatePicker.propTypes = {
+DatePicker.propTypes = {
   name: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   handleChange: PropTypes.func.isRequired,
@@ -56,4 +56,4 @@ FormikDatePicker.propTypes = {
   label: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(FormikDatePicker);
+export default withStyles(styles)(DatePicker);

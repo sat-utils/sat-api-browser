@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { setActiveQueryTab } from '../actions/queryActions';
-import * as querySelectors from '../reducers/querySelectors';
-import QueryForm from './QueryForm';
+import { setActiveFilterTab } from '../actions/filterActions';
+import * as filterSelectors from '../reducers/filterSelectors';
+import FilterFormWrapper from './FilterFormWrapper';
 import ImageItems from './ImageItems';
 import ResultsPaging from './ResultsPaging';
 
@@ -15,7 +15,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.grey[100]
   }
 });
-const QueryTabs = (props) => {
+const FilterTabs = (props) => {
   const {
     activeTab,
     setActiveTab,
@@ -24,7 +24,7 @@ const QueryTabs = (props) => {
   } = props;
   let activeContent;
   if (activeTab === 0) {
-    activeContent = <QueryForm />;
+    activeContent = <FilterFormWrapper />;
   }
   if (activeTab === 1) {
     activeContent = (
@@ -60,18 +60,18 @@ const QueryTabs = (props) => {
 };
 
 const mapStateToProps = state => ({
-  activeTab: querySelectors.getActiveQueryTab(state),
-  resultsDisabled: querySelectors.getResultsTabDisabled(state)
+  activeTab: filterSelectors.getActiveFilterTab(state),
+  resultsDisabled: filterSelectors.getResultsTabDisabled(state)
 });
 
 const mapDispatchToProps = {
-  setActiveTab: setActiveQueryTab
+  setActiveTab: setActiveFilterTab
 };
 
-QueryTabs.propTypes = {
+FilterTabs.propTypes = {
   activeTab: PropTypes.number.isRequired,
   setActiveTab: PropTypes.func.isRequired,
   resultsDisabled: PropTypes.bool.isRequired
 };
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(QueryTabs));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(FilterTabs));

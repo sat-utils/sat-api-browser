@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import Chip from '@material-ui/core/Chip';
 import ProgressButton from './ProgressButton';
-import { fetchFilteredItems } from '../actions/queryActions';
+import { fetchFilteredItems } from '../actions/filterActions';
 import { getResultsTotal, getResultsDisplayed }
   from '../reducers/stylesheetSelectors';
-import { getCurrentFilter, getQueryStatus } from '../reducers/querySelectors';
+import { getCurrentFilter, getFilterStatus } from '../reducers/filterSelectors';
 import { loading } from '../constants/applicationConstants';
 
 const styles = theme => ({
@@ -85,7 +85,7 @@ const mapStateToProps = state => ({
   resultsTotal: getResultsTotal(state),
   resultsDisplayed: getResultsDisplayed(state),
   currentFilter: getCurrentFilter(state),
-  status: getQueryStatus(state)
+  status: getFilterStatus(state)
 });
 
 const mapDispatchToProps = { fetchFilteredItemsAction: fetchFilteredItems };
