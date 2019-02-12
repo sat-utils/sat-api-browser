@@ -2,13 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
+import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import { withContentRect } from 'react-measure';
 import { trackWindowScroll } from 'react-lazy-load-image-component';
 import { setActiveImageItem } from '../actions/stylesheetActionCreators';
 import * as stylesheetSelectors from '../reducers/stylesheetSelectors';
-
 import ImageItem from './ImageItem';
+
+const styles = {
+  gridList: {
+    maxHeight: 'calc(100vh - 220px)',
+    overflowY: 'scroll'
+  }
+};
 
 export const ImageItems = (props) => {
   const {
@@ -17,8 +24,10 @@ export const ImageItems = (props) => {
     activeImageItemId,
     measureRef,
     contentRect,
-    scrollPosition
+    scrollPosition,
+    classes
   } = props;
+
   const panelWidth = !contentRect.client.width
     ? 300 : contentRect.client.width;
   const cellWidth = (panelWidth / 2);
@@ -45,8 +54,8 @@ export const ImageItems = (props) => {
   return (
     <div ref={measureRef}>
       <GridList
-        style={{ maxHeight: 'calc(100vh - 220px)', overflowY: 'scroll' }}
         cellHeight={cellWidth}
+        className={classes.gridList}
       >
         {items}
       </GridList>
@@ -67,7 +76,8 @@ ImageItems.propTypes = {
   scrollPosition: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired
-  })
+  }),
+  classes: PropTypes.object.isRequired
 };
 
 ImageItems.defaultProps = {
@@ -90,5 +100,5 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { setActiveImageItem };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  withContentRect('client')(trackWindowScroll(ImageItems))
+  withContentRect('client')(trackWindowScroll(withStyles(styles)(ImageItems)))
 );

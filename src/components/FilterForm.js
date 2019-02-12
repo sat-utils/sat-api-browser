@@ -21,7 +21,9 @@ const styles = theme => ({
     margin: theme.spacing.unit,
   },
   grid: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing.unit * 3,
+    maxHeight: 'calc(100vh - 220px)',
+    overflowY: 'scroll'
   },
   submit: {
     textAlign: 'center'
@@ -155,7 +157,8 @@ FilterForm.propTypes = {
   status: PropTypes.string.isRequired,
   startDrawingAction: PropTypes.func.isRequired,
   bbox: PropTypes.array,
-  drawing: PropTypes.bool.isRequired
+  drawing: PropTypes.bool.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(FilterForm);
