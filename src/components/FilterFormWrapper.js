@@ -35,6 +35,19 @@ export const FilterFormWrapper = withFormik({
             errorAccum[`${queryFiltersName}.${key}.value`] = 'Must be a string';
           }
         }
+        if (type === 'number') {
+          if (!value || value === '') {
+            errorAccum[`${queryFiltersName}.${key}.value`] = 'Must be a number';
+          }
+          const minimum = queryProperties.getIn([key, 'minimum']);
+          const maximum = queryProperties.getIn([key, 'maximum']);
+          if (minimum !== null && maximum !== null) {
+            const valid = (value >= minimum && value <= maximum);
+            if (!valid) {
+              errorAccum[`${queryFiltersName}.${key}.value`] = `Must be between ${minimum} and ${maximum}`;
+            }
+          }
+        }
       }
       return errorAccum;
     }, {});
