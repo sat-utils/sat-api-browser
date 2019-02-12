@@ -8,20 +8,19 @@ const WrappedTextField = (props) => {
     name,
     handleChange,
     handleBlur,
-    touched,
     errors,
     values,
     type,
+    label,
     helperText
   } = props;
 
-  const fieldError = getIn(errors, name);
-  const showError = getIn(touched, name) && !!fieldError;
+  const fieldError = errors[name];
   const value = getIn(values, name);
   return (
     <TextField
       name={name}
-      label={type}
+      label={label}
       type={type}
       value={value || ''}
       margin="normal"
@@ -29,13 +28,12 @@ const WrappedTextField = (props) => {
       onBlur={handleBlur}
       helperText={
         (fieldError
-        && showError
         && String(fieldError))
         || helperText
       }
       style={{ verticalAlign: 'unset', marginLeft: '10px' }}
       error={
-        Boolean(errors[name] && touched[name])
+        Boolean(errors[name])
       }
     />
   );
@@ -53,7 +51,8 @@ WrappedTextField.propTypes = {
   errors: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
-  helperText: PropTypes.string
+  helperText: PropTypes.string,
+  label: PropTypes.string.isRequired
 };
 
 export default WrappedTextField;

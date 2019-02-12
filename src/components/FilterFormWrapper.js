@@ -6,6 +6,8 @@ import { getFilterStatus, getBbox, getQueryProperties }
   from '../reducers/filterSelectors';
 import { getDrawing } from '../reducers/stylesheetSelectors';
 import FilterForm from './FilterForm';
+import { none, queryFilters as queryFiltersName }
+  from '../constants/applicationConstants';
 
 const limit = process.env.REACT_APP_RESULT_LIMIT;
 
@@ -19,8 +21,24 @@ export const FilterFormWrapper = withFormik({
     return initialValues;
   },
 
-  validate: (values) => {
-    const errors = {};
+  validate: (values, props) => {
+    const { queryProperties } = props;
+    const { queryFilters } = values;
+    const errors = Object.keys(queryFilters).reduce((accum, key) => {
+      const errorAccum = Object.assign({}, accum);
+      const filter = queryFilters[key];
+      const { operator, value } = filter;
+      if (operator !== none) {
+        const type = queryProperties.getIn([key, 'type']);
+        if (type === 'string') {
+          if (!value || value === '') {
+            errorAccum[`${queryFiltersName}.${key}.value`] = 'Must be a string';
+          }
+        }
+      }
+      return errorAccum;
+    }, {});
+
     if (values.startdatetime >= values.enddatetime) {
       errors.startdatetime = 'Start Date must be before End Date';
     }
@@ -34,6 +52,7 @@ export const FilterFormWrapper = withFormik({
     if (!endValid) {
       errors.enddatetime = invalidDateMessage;
     }
+
     return errors;
   },
 

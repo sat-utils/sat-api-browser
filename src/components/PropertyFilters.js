@@ -9,6 +9,7 @@ import OperatorSelector from './OperatorSelector';
 import { getQueryProperties } from '../reducers/filterSelectors';
 import { queryFilters } from '../constants/applicationConstants';
 
+
 const styles = theme => ({
   elements: {
     margin: theme.spacing.unit
@@ -25,6 +26,14 @@ const PropertyFilters = (props) => {
   const propertyFilters = queryProperties.entrySeq().map(([key, value]) => {
     const title = value.get('title');
     const type = value.get('type');
+    const min = value.get('minimum');
+    const max = value.get('maximum');
+    let label;
+    if (type === 'number' && min !== null && max !== null) {
+      label = `${min} - ${max}`;
+    } else {
+      label = type;
+    }
 
     return (
       <div key={key}>
@@ -41,6 +50,7 @@ const PropertyFilters = (props) => {
         />
         <WrappedTextField
           name={`${queryFilters}.${key}.value`}
+          label={label}
           type={type}
           values={values}
           className={classes.elements}

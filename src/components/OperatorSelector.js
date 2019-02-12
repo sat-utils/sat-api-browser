@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { getIn } from 'formik';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import { none } from '../constants/applicationConstants';
 
 const OperatorSelector = (props) => {
   const {
@@ -16,12 +17,12 @@ const OperatorSelector = (props) => {
   let menuItems;
   if (onlyEq) {
     menuItems = [
-      <MenuItem key="none" value="none" />,
+      <MenuItem key={none} value={none} />,
       <MenuItem key="eq" value="eq">=</MenuItem>
     ];
   } else {
     menuItems = [
-      <MenuItem key="none" value="none" />,
+      <MenuItem key={none} value={none} />,
       <MenuItem key="eq" value="eq">=</MenuItem>,
       <MenuItem key="gt" value="gt">{'>'}</MenuItem>,
       <MenuItem key="lt" value="lt">{'<'}</MenuItem>,
