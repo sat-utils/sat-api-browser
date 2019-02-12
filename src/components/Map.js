@@ -356,7 +356,10 @@ Map.propTypes = {
   setStyle: PropTypes.func.isRequired,
   setClientSize: PropTypes.func.isRequired,
   width: PropTypes.string.isRequired,
-  setStyleSucceeded: PropTypes.func.isRequired
+  setStyleSucceeded: PropTypes.func.isRequired,
+  drawingCompleted: PropTypes.func.isRequired,
+  drawing: PropTypes.bool.isRequired,
+  setActiveImageItem: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
-import WrappedTextField from './WrappedTextField.js';
+import WrappedTextField from './WrappedTextField';
 import OperatorSelector from './OperatorSelector';
 import { getQueryProperties } from '../reducers/filterSelectors';
 import { queryFilters } from '../constants/applicationConstants';
@@ -17,7 +18,6 @@ const styles = theme => ({
 const PropertyFilters = (props) => {
   const {
     queryProperties,
-    // eslint-disable-next-line
     values,
     classes,
     ...formikFieldProps
@@ -57,7 +57,9 @@ const PropertyFilters = (props) => {
 };
 
 PropertyFilters.propTypes = {
-  queryProperties: ImmutablePropTypes.map.isRequired
+  queryProperties: ImmutablePropTypes.map.isRequired,
+  classes: PropTypes.object.isRequired,
+  values: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

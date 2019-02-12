@@ -71,7 +71,8 @@ const mapDispatchToProps = {
 FilterTabs.propTypes = {
   activeTab: PropTypes.number.isRequired,
   setActiveTab: PropTypes.func.isRequired,
-  resultsDisabled: PropTypes.bool.isRequired
+  resultsDisabled: PropTypes.bool.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(FilterTabs));

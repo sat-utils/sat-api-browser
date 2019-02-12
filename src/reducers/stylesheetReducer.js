@@ -75,26 +75,11 @@ const setActiveImageItem = (state, payload) => {
 
     const imageItemJS = imageItem.toJS();
     const viewport = getViewport(state, imageItemJS);
-    /* eslint-disable-next-line */
-    //const href = imageItemJS.assets.primary.href;
-    //const imagePath = url.parse(href).path.split('.')[0];
-    //const tilePath = `https://tilerurl/${imagePath}`;
 
     newState = state.withMutations((tempState) => {
       tempState.set('activeImageItemId', imageId);
       tempState.setIn(['style', 'center'], fromJS(viewport.center));
       tempState.setIn(['style', 'zoom'], viewport.zoom - 0.5);
-      //tempState.setIn(
-        //['style', 'sources', activeImageItemSource, 'url'], tilePath
-      //);
-      //tempState.updateIn(
-        //['style', 'layers'],
-        //(layers) => {
-          //const index = layers
-            //.findIndex(layer => layer.get('id') === activeImageItem);
-          //return layers.setIn([index, 'layout', 'visibility'], 'visible');
-        //}
-      //);
       tempState.updateIn(
         ['style', 'layers'],
         (layers) => {

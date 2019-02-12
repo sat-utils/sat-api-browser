@@ -1,6 +1,7 @@
 /* eslint no-underscore-dangle: "off" */
 import test from 'tape';
 import sinon from 'sinon';
+
 const proxyquire = require('proxyquire').noCallThru();
 
 const testAction = {

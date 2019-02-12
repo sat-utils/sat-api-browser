@@ -38,7 +38,7 @@
     "build": "react-scripts build",
     "test": "NODE_ENV=test ./node_modules/.bin/tape ./test/test.js",
     "eject": "react-scripts eject",
-    "eslint": "eslint . --ext .js"
+    "eslint": "eslint src/**/*.js"
   },
   "eslintConfig": {
     "extends": "react-app"
