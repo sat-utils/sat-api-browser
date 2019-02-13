@@ -1,7 +1,7 @@
 
 ## sat-api-browser
 A query constructor and results visualizer for [stac-spec](https://github.com/radiantearth/stac-spec/tree/master/api-spec)
-compliant APIs. [sat-api-browser](sat-api-browser-dev.s3-website-us-east-1.amazonaws.com)
+compliant APIs. [sat-api-browser](http://sat-api-browser-dev.s3-website-us-east-1.amazonaws.com)
 
 ## Intent
 
