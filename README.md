@@ -54,6 +54,10 @@ The following environment variables are required.  You can copy and rename `.env
 `REACT_APP_MAPBOX_ACCESS_TOKEN`<br>
 `REACT_APP_RESULT_LIMIT`
 
+### `yarn run build && aws s3 sync build/ s3://sat-api-browser-dev`
+
+Build and deploy to s3 bucket.
+
 ### Design Approach
 
 The application uses [Redux](https://redux.js.org/) for state management.
