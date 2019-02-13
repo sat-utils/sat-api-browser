@@ -9,6 +9,7 @@ import Chip from '@material-ui/core/Chip';
 import PictureIcon from '@material-ui/icons/PictureInPicture';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import green from '@material-ui/core/colors/green';
 import { Persist } from 'formik-persist';
 import DatePicker from './DatePicker';
 import { loading, failed } from '../constants/applicationConstants';
@@ -36,6 +37,10 @@ const styles = theme => ({
   },
   error: {
     backgroundColor: theme.palette.error.dark,
+  },
+  bboxChip: {
+    backgroundColor: green[500],
+    color: '#fff'
   }
 });
 
@@ -58,12 +63,18 @@ export const FilterForm = (props) => {
   if (bbox) {
     bboxCoords = (
       <Chip
-        icon={<PictureIcon />}
+        icon={<PictureIcon className={classes.bboxChip} />}
         label="BBOX"
+        className={classes.bboxChip}
       />
     );
   } else {
-    bboxCoords = <div />;
+    bboxCoords = (
+      <Chip
+        label="BBOX Required"
+        color="secondary"
+      />
+    );
   }
   return (
     <Grid
