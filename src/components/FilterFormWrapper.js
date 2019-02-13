@@ -90,9 +90,7 @@ export const FilterFormWrapper = withFormik({
       };
       return accum;
     }, {});
-    query.collection = {
-      eq: 'landsat-8-l1'
-    };
+
     const filter = {
       limit,
       bbox,

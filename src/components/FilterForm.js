@@ -128,6 +128,9 @@ export const FilterForm = (props) => {
               onClick={handleSubmit}
             />
           </div>
+          <Persist
+            name="filter-form"
+          />
         </form>
       </Grid>
       <Snackbar
