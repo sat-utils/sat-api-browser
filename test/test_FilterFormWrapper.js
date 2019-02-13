@@ -53,7 +53,7 @@ test('FilterFormWrapper date validation', (t) => {
     queryFilters: {}
   };
   let errors = instance.validate(values);
-  t.ok(errors.startdatetime, 'Throws range error when dates are equal.');
+  t.ok(errors.startdatetime, 'Reports range error when dates are equal.');
 
   values = {
     startdatetime: new Date('1995-12-17T03:24:00').toISOString().substring(0, 16),
@@ -69,7 +69,7 @@ test('FilterFormWrapper date validation', (t) => {
     queryFilters: {}
   };
   errors = instance.validate(values);
-  t.equal(Object.keys(errors).length, 2, 'Errors for invalid date strings');
+  t.equal(Object.keys(errors).length, 2, 'Reports errors for invalid date strings');
 
   t.end();
 });
@@ -89,7 +89,7 @@ test('FilterFormWrapper query filter validation', (t) => {
   };
   let errors = instance.validate(values);
   t.ok(errors.queryFilters['eo:collection'].value,
-    'Throws error when string value for query filter is empty string.');
+    'Reports error when string value for query filter is empty string.');
 
   values = {
     queryFilters: {
@@ -102,5 +102,36 @@ test('FilterFormWrapper query filter validation', (t) => {
   errors = instance.validate(values);
   t.notOk(errors.queryFilters,
     'No error for valid string value');
+  t.end();
+});
+
+test('FilterFormWrapper query filter range validation', (t) => {
+  const { props } = setup();
+  const wrapper = shallow((<FilterFormWrapper {...props} />));
+  const instance = wrapper.instance();
+
+  let values = {
+    queryFilters: {
+      'eo:cloud_cover': {
+        operator: 'eq',
+        value: 120
+      }
+    }
+  };
+  let errors = instance.validate(values);
+  t.ok(errors.queryFilters['eo:cloud_cover'].value,
+    'Reports range error when value falls outside of min max.');
+
+  values = {
+    queryFilters: {
+      'eo:cloud_cover': {
+        operator: 'eq',
+        value: 90
+      }
+    }
+  };
+  errors = instance.validate(values);
+  t.notOk(errors.queryFilters,
+    'No error when value falls inside of min max.');
   t.end();
 });
