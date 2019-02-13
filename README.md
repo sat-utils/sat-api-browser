@@ -4,20 +4,19 @@ A query constructor and results visualizer for [stac-spec](https://github.com/ra
 compliant APIs.
 
 ## Intent
-The STAC `api-spec` provides a powerful interface for querying and filtering
-data represented as STAC catalogs. But constructing appropriate queries to find
-datasets that meet your criteria can be difficult when done manually due to the
-verbose query language defined by the standard.  The `sat-api-browser`'s intent is to simplify this
-query construction by providing a UI which lets users use STAC extension
-[schemas](https://github.com/radiantearth/stac-spec/tree/master/extensions) to
-build and validate queries. 
 
-Once the user has received the results of the query, they can select candidate
-items and save them to a list to quickly and seamlessly build
-large lists of datasets (represented as STAC items) that they can use in other
-applications.  This provides the ability to query and search for data in a more
-iterative fashion rather than attempting to build a single all encompassing query
-to capture results.
+The STAC `api-spec` provides querying and filtering capabilities for data
+represented as STAC catalogs.  The `sat-api-browser`'s intent is to simplify
+STAC compliant API filter construction and results visualization by providing a
+UI which lets users use STAC extension [schemas](https://github.com/radiantearth/stac-spec/tree/master/extensions)
+to build and validate filters. 
+
+Once the user has received the results of the query, they can select interesting
+candidate items and save them to a 'shopping cart' of datasets (represented as STAC items)
+that they can leverage in other applications.  This provides the ability to search
+for data in a more organic and iterative fashion (much like shopping) rather than
+attempting to build a single all encompassing query to capture appropriate results
+like traditional data search applications.
 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -49,8 +48,8 @@ The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 The following environment variables are required.  You can copy and rename `.env.sample` to `.env` for use as a template.<br>
-`SKIP_PREFLIGHT_CHECK=true`
-`REACT_APP_API_URL` The URL with port of the oam-api.<br>
+`SKIP_PREFLIGHT_CHECK=true`<br>
+`REACT_APP_API_URL` The URL with port of the stac compliant api.<br>
 `REACT_APP_MAPBOX_ACCESS_TOKEN`<br>
 `REACT_APP_RESULT_LIMIT`
 
