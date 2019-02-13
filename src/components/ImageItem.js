@@ -7,16 +7,17 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { format, parse } from 'date-fns';
 
 const styles = () => ({
   tile: {
     cursor: 'pointer'
   },
   title: {
-    fontSize: '0.8rem'
+    fontSize: '0.9rem'
   },
   subtitle: {
-    fontSize: '0.7rem'
+    fontSize: '0.8rem'
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
@@ -55,6 +56,7 @@ class ImageItem extends React.Component {
       thumbnail,
       stacId,
       datetime,
+      collection,
       setActiveImageItem,
       activeImageItemId,
       cols = 1,
@@ -63,7 +65,9 @@ class ImageItem extends React.Component {
       scrollPosition,
       ...other
     } = this.props;
-
+    const date = format(parse(datetime), 'MM/DD/YYYY - HH:mm:ss');
+    const camelCollection = collection
+      .replace(/(^|[\s-])\S/g, letter => (letter.toUpperCase()));
     return (
       <GridListTile
         className={id === activeImageItemId ? classes.selected : classes.tile}
@@ -78,14 +82,17 @@ class ImageItem extends React.Component {
           height={width}
           width={width}
           src={thumbnail}
-          alt={stacId}
+          placeholder={
+            <span>Loading</span>
+          }
         />
         <GridListTileBar
           classes={{
             title: classes.title,
             subtitle: classes.subtitle
           }}
-          title={stacId}
+          title={camelCollection}
+          subtitle={date}
         />
       </GridListTile>
     );

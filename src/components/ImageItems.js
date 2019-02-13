@@ -36,6 +36,7 @@ export const ImageItems = (props) => {
     const thumbnail = item.getIn(['assets', 'thumbnail', 'href']);
     const stacId = item.get('stacId');
     const datetime = item.getIn(['properties', 'datetime']);
+    const collection = item.getIn(['properties', 'collection']);
     return (
       <ImageItem
         width={cellWidth}
@@ -46,6 +47,7 @@ export const ImageItems = (props) => {
         thumbnail={thumbnail}
         stacId={stacId}
         datetime={datetime}
+        collection={collection}
         setActiveImageItem={dispatchSetActiveImageItem}
         activeImageItemId={activeImageItemId}
       />
