@@ -11,6 +11,16 @@ import { none, queryFilters as queryFiltersName }
 
 const limit = process.env.REACT_APP_RESULT_LIMIT;
 
+function addFilterError(key, errors, message) {
+  const newErrors = Object.assign({}, errors);
+  newErrors[queryFiltersName] = Object.assign({}, errors[queryFiltersName], {
+    [key]: {
+      value: message
+    }
+  });
+  return newErrors;
+}
+
 export const FilterFormWrapper = withFormik({
   mapPropsToValues: () => {
     const initialValues = {
@@ -25,26 +35,27 @@ export const FilterFormWrapper = withFormik({
     const { queryProperties } = props;
     const { queryFilters } = values;
     const errors = Object.keys(queryFilters).reduce((accum, key) => {
-      const errorAccum = Object.assign({}, accum);
+      let errorAccum = Object.assign({}, accum);
       const filter = queryFilters[key];
       const { operator, value } = filter;
       if (operator !== none) {
         const type = queryProperties.getIn([key, 'type']);
         if (type === 'string') {
           if (!value || value === '') {
-            errorAccum[`${queryFiltersName}.${key}.value`] = 'Must be a string';
+            errorAccum = addFilterError(key, accum, 'Must be a string');
           }
         }
         if (type === 'number') {
           if (!value || value === '') {
-            errorAccum[`${queryFiltersName}.${key}.value`] = 'Must be a number';
+            errorAccum = addFilterError(key, accum, 'Must be a number');
           }
           const minimum = queryProperties.getIn([key, 'minimum']);
           const maximum = queryProperties.getIn([key, 'maximum']);
           if (minimum !== null && maximum !== null) {
             const valid = (value >= minimum && value <= maximum);
             if (!valid) {
-              errorAccum[`${queryFiltersName}.${key}.value`] = `Must be between ${minimum} and ${maximum}`;
+              errorAccum = addFilterError(key, accum,
+                `Must be between ${minimum} and ${maximum}`);
             }
           }
         }

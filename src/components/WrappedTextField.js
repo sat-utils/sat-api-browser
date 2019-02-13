@@ -15,7 +15,7 @@ const WrappedTextField = (props) => {
     helperText
   } = props;
 
-  const fieldError = errors[name];
+  const fieldError = getIn(errors, name);
   const value = getIn(values, name);
   return (
     <TextField
@@ -26,14 +26,14 @@ const WrappedTextField = (props) => {
       margin="normal"
       onChange={handleChange}
       onBlur={handleBlur}
+      style={{ verticalAlign: 'unset', marginLeft: '10px' }}
       helperText={
         (fieldError
         && String(fieldError))
         || helperText
       }
-      style={{ verticalAlign: 'unset', marginLeft: '10px' }}
       error={
-        Boolean(errors[name])
+        Boolean(fieldError)
       }
     />
   );
@@ -47,7 +47,6 @@ WrappedTextField.propTypes = {
   name: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   handleBlur: PropTypes.func.isRequired,
-  touched: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
   type: PropTypes.string.isRequired,
