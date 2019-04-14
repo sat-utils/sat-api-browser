@@ -20,6 +20,8 @@
     "mapbox-gl": "^0.52.0",
     "mapbox-gl-draw-rectangle-mode": "^1.0.4",
     "prop-types": "^15.6.2",
+    "rc-slider": "^8.6.9",
+    "rc-tooltip": "^3.7.3",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-immutable-proptypes": "^2.1.0",

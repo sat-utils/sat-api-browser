@@ -8,6 +8,7 @@ import WrappedTextField from './WrappedTextField';
 import OperatorSelector from './OperatorSelector';
 import { getQueryProperties } from '../reducers/filterSelectors';
 import { queryFilters } from '../constants/applicationConstants';
+import RangeSlider from './RangeSlider';
 
 
 const styles = theme => ({
@@ -28,36 +29,58 @@ const PropertyFilters = (props) => {
     const type = value.get('type');
     const min = value.get('minimum');
     const max = value.get('maximum');
-    let label;
-    if (type === 'number' && min !== null && max !== null) {
-      label = `${min} - ${max}`;
+    //let label;
+    //if (type === 'number' && min !== null && max !== null) {
+      //label = `${min} - ${max}`;
+    //} else {
+      //label = type;
+    //}
+    let valueControl;
+    if (type === 'number') {
+      valueControl = (
+        <RangeSlider
+          min={min}
+          max={max}
+        />
+      );
     } else {
-      label = type;
+      valueControl = <div>title</div>;
     }
-
     return (
-      <div key={key}>
+      <div
+        key={key}
+        style={{ display: 'flex', alignItems: 'center', paddingTop: '25px' }}
+      >
         <Chip
           label={title}
           className={classes.elements}
         />
-        <OperatorSelector
-          name={`${queryFilters}.${key}.operator`}
-          values={values}
-          onlyEq={type === 'string'}
-          className={classes.elements}
-          {...formikFieldProps}
-        />
-        <WrappedTextField
-          name={`${queryFilters}.${key}.value`}
-          label={label}
-          type={type}
-          values={values}
-          className={classes.elements}
-          {...formikFieldProps}
-        />
+        {valueControl}
       </div>
     );
+    //return (
+      //<div key={key}>
+        //<Chip
+          //label={title}
+          //className={classes.elements}
+        ///>
+        //<OperatorSelector
+          //name={`${queryFilters}.${key}.operator`}
+          //values={values}
+          //onlyEq={type === 'string'}
+          //className={classes.elements}
+          //{...formikFieldProps}
+        ///>
+        //<WrappedTextField
+          //name={`${queryFilters}.${key}.value`}
+          //label={label}
+          //type={type}
+          //values={values}
+          //className={classes.elements}
+          //{...formikFieldProps}
+        ///>
+      //</div>
+    //);
   });
   return (
     <div>
