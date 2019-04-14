@@ -1,18 +1,24 @@
+import { RSAA } from 'redux-api-middleware';
 import * as types from '../constants/action_types';
 
+const BASE_URL = process.env.REACT_APP_API_URL;
+
 export function fetchFilteredItems(filter) {
+  const fetchAction = {
+    type: types.FETCH_FILTERED_ITEMS,
+    payload: filter
+  };
   return {
-    type: types.CALL_API,
-    payload: {
-      endpoint: 'stac/search',
-      authenticated: false,
-      types: {
-        requestType: types.FETCH_FILTERED_ITEMS,
-        successType: types.FETCH_FILTERED_ITEMS_SUCCEEDED,
-        errorType: types.FETCH_FILTERED_ITEMS_FAILED
-      },
+    [RSAA]: {
+      endpoint: `${BASE_URL}/stac/search`,
       method: 'POST',
-      json: filter
+      types: [
+        fetchAction,
+        types.FETCH_FILTERED_ITEMS_SUCCEEDED,
+        types.FETCH_FILTERED_ITEMS_FAILED
+      ],
+      body: JSON.stringify(filter),
+      headers: { 'content-type': 'application/json' },
     }
   };
 }

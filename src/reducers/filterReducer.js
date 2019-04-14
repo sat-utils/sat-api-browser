@@ -23,16 +23,16 @@ export default function filterReducer(state = initialState, action) {
       });
     }
     case actions.FETCH_FILTERED_ITEMS: {
+      const { payload } = action;
       return state.merge({
-        status: loading
+        status: loading,
+        currentFilter: fromJS(payload)
       });
     }
     case actions.FETCH_FILTERED_ITEMS_SUCCEEDED: {
-      const { payload: { filter } } = action;
       return state.merge({
         status: completed,
-        activeFilterTab: 1,
-        currentFilter: fromJS(filter)
+        activeFilterTab: 1
       });
     }
     case actions.FETCH_FILTERED_ITEMS_FAILED: {
