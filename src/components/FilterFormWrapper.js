@@ -6,7 +6,7 @@ import { getFilterStatus, getBbox, getQueryProperties }
   from '../reducers/filterSelectors';
 import { getDrawing } from '../reducers/stylesheetSelectors';
 import FilterForm from './FilterForm';
-import { none, queryFilters as queryFiltersName }
+import { queryFilters as queryFiltersName }
   from '../constants/applicationConstants';
 
 const limit = process.env.REACT_APP_RESULT_LIMIT;
@@ -14,9 +14,7 @@ const limit = process.env.REACT_APP_RESULT_LIMIT;
 function addFilterError(key, errors, message) {
   const newErrors = Object.assign({}, errors);
   newErrors[queryFiltersName] = Object.assign({}, errors[queryFiltersName], {
-    [key]: {
-      value: message
-    }
+    [key]: message
   });
   return newErrors;
 }
@@ -36,27 +34,21 @@ export const FilterFormWrapper = withFormik({
     const { queryFilters } = values;
     const errors = Object.keys(queryFilters).reduce((accum, key) => {
       let errorAccum = Object.assign({}, accum);
+      const type = queryProperties.getIn([key, 'type']);
       const filter = queryFilters[key];
-      const { operator, value } = filter;
-      if (operator !== none) {
-        const type = queryProperties.getIn([key, 'type']);
-        if (type === 'string') {
-          if (!value || value === '') {
-            errorAccum = addFilterError(key, accum, 'Must be a string');
-          }
+      if (type === 'string') {
+        if (!(filter.eq && filter.eq.length)) {
+          errorAccum = addFilterError(key, accum, 'Must be a string');
         }
-        if (type === 'number') {
-          if (!value || value === '') {
-            errorAccum = addFilterError(key, accum, 'Must be a number');
-          }
-          const minimum = queryProperties.getIn([key, 'minimum']);
-          const maximum = queryProperties.getIn([key, 'maximum']);
-          if (minimum !== null && maximum !== null) {
-            const valid = (value >= minimum && value <= maximum);
-            if (!valid) {
-              errorAccum = addFilterError(key, accum,
-                `Must be between ${minimum} and ${maximum}`);
-            }
+      }
+      if (type === 'number') {
+        const minimum = queryProperties.getIn([key, 'minimum']);
+        const maximum = queryProperties.getIn([key, 'maximum']);
+        if (minimum !== null && maximum !== null) {
+          const valid = (filter.gte >= minimum && filter.lte <= maximum);
+          if (!valid) {
+            errorAccum = addFilterError(key, accum,
+              `Must be between ${minimum} and ${maximum}`);
           }
         }
       }
@@ -92,20 +84,10 @@ export const FilterFormWrapper = withFormik({
       queryFilters
     } = values;
 
-    const query = Object.keys(queryFilters).reduce((accum, key) => {
-      const filter = queryFilters[key];
-      const { operator, value } = filter;
-      // eslint-disable-next-line
-      accum[key] = {
-        [operator]: value
-      };
-      return accum;
-    }, {});
-
     const filter = {
       limit,
       bbox,
-      query,
+      query: queryFilters,
       time: `${startdatetime}/${enddatetime}`
     };
     fetchFilteredItemsAction(filter);
