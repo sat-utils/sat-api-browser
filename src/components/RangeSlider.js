@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Range, Handle } from 'rc-slider';
+import { getIn } from 'formik';
 import Tooltip from 'rc-tooltip';
 import 'rc-slider/assets/index.css';
 
@@ -27,28 +28,18 @@ const handle = (props) => {
 };
 
 class RangeSlider extends React.Component {
-  componentDidMount() {
-    const {
-      name,
-      min,
-      max,
-      setFieldValue
-    } = this.props;
-
-    const defaultMax = max / 2;
-    setFieldValue(`${name}.gte`, min);
-    setFieldValue(`${name}.lte`, defaultMax);
-  }
-
   render() {
     const {
       name,
       min,
       max,
-      setFieldValue
+      setFieldValue,
+      values
     } = this.props;
 
     const defaultMax = max / 2;
+    const minValue = getIn(values, `${name}.gte`) || min;
+    const maxValue = getIn(values, `${name}.lte`) || defaultMax;
 
     return (
       <Range
@@ -57,7 +48,7 @@ class RangeSlider extends React.Component {
         allowCross={false}
         min={min}
         max={max}
-        defaultValue={[min, defaultMax]}
+        defaultValue={[minValue, maxValue]}
         handle={handle}
         marks={{ [min]: min, [max]: max }}
         onAfterChange={(minmax) => {
@@ -73,7 +64,8 @@ RangeSlider.propTypes = {
   name: PropTypes.string.isRequired,
   min: PropTypes.number,
   max: PropTypes.number,
-  setFieldValue: PropTypes.func.isRequired
+  setFieldValue: PropTypes.func.isRequired,
+  values: PropTypes.object
 };
 
 export default RangeSlider;

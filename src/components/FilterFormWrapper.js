@@ -2,40 +2,54 @@ import { connect } from 'react-redux';
 import { withFormik } from 'formik';
 import { fetchFilteredItems } from '../actions/filterActions';
 import { startDrawing } from '../actions/stylesheetActionCreators';
-import { getFilterStatus, getBbox, getQueryProperties }
-  from '../reducers/filterSelectors';
+import {
+  getFilterStatus,
+  getBbox,
+  getQueryProperties,
+  getCurrentFilter
+} from '../reducers/filterSelectors';
 import { getDrawing } from '../reducers/stylesheetSelectors';
 import FilterForm from './FilterForm';
-import { queryFilters as queryFiltersName }
+import { query as queryLiteral }
   from '../constants/applicationConstants';
 
 const limit = process.env.REACT_APP_RESULT_LIMIT;
 
 function addFilterError(key, errors, message) {
   const newErrors = Object.assign({}, errors);
-  newErrors[queryFiltersName] = Object.assign({}, errors[queryFiltersName], {
+  newErrors[queryLiteral] = Object.assign({}, errors[queryLiteral], {
     [key]: message
   });
   return newErrors;
 }
 
 export const FilterFormWrapper = withFormik({
-  mapPropsToValues: () => {
+  mapPropsToValues: (props) => {
+    const currentFilter = props.currentFilter.toJS();
+    const { query, time } = currentFilter;
+    let dateTimes = [];
+    if (time) {
+      const times = time.split('/');
+      dateTimes = times;
+    } else {
+      dateTimes[0] = new Date().toISOString().substring(0, 16);
+      dateTimes[1] = new Date().toISOString().substring(0, 16);
+    }
     const initialValues = {
-      startdatetime: new Date().toISOString().substring(0, 16),
-      enddatetime: new Date().toISOString().substring(0, 16),
-      queryFilters: {}
+      query: query || {},
+      startdatetime: dateTimes[0],
+      enddatetime: dateTimes[1]
     };
     return initialValues;
   },
 
   validate: (values, props) => {
     const { queryProperties } = props;
-    const { queryFilters } = values;
-    const errors = Object.keys(queryFilters).reduce((accum, key) => {
+    const { query } = values;
+    const errors = Object.keys(query).reduce((accum, key) => {
       let errorAccum = Object.assign({}, accum);
       const type = queryProperties.getIn([key, 'type']);
-      const filter = queryFilters[key];
+      const filter = query[key];
       if (type === 'string') {
         if (!(filter.eq && filter.eq.length)) {
           errorAccum = addFilterError(key, accum, 'Must be a string');
@@ -81,13 +95,13 @@ export const FilterFormWrapper = withFormik({
     const {
       startdatetime,
       enddatetime,
-      queryFilters
+      query
     } = values;
 
     const filter = {
       limit,
       bbox,
-      query: queryFilters,
+      query,
       time: `${startdatetime}/${enddatetime}`
     };
     fetchFilteredItemsAction(filter);
@@ -99,7 +113,8 @@ const mapStateToProps = state => ({
   status: getFilterStatus(state),
   bbox: getBbox(state),
   drawing: getDrawing(state),
-  queryProperties: getQueryProperties(state)
+  queryProperties: getQueryProperties(state),
+  currentFilter: getCurrentFilter(state)
 });
 
 const mapDispatchToProps = {

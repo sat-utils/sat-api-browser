@@ -6,9 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import WrappedTextField from './WrappedTextField';
 import { getQueryProperties } from '../reducers/filterSelectors';
-import { queryFilters } from '../constants/applicationConstants';
+import { query } from '../constants/applicationConstants';
 import RangeSlider from './RangeSlider';
-
 
 const styles = theme => ({
   elements: {
@@ -33,7 +32,7 @@ const PropertyFilters = (props) => {
     if (type === 'number') {
       valueControl = (
         <RangeSlider
-          name={`${queryFilters}.${key}`}
+          name={`${query}.${key}`}
           min={min}
           max={max}
           values={values}
@@ -43,7 +42,7 @@ const PropertyFilters = (props) => {
     } else {
       valueControl = (
         <WrappedTextField
-          name={`${queryFilters}.${key}`}
+          name={`${query}.${key}`}
           label={title}
           type={type}
           values={values}
