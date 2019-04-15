@@ -53,6 +53,11 @@ export default function filterReducer(state = initialState, action) {
       return state.setIn(['queryProperties', property.name], fromJS(property));
     }
 
+    case actions.REMOVE_PROPERTY_FROM_QUERY: {
+      const { payload: { property } } = action;
+      return state.deleteIn(['queryProperties', property]);
+    }
+
     default: {
       return state;
     }

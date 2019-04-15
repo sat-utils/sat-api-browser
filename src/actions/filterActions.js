@@ -40,3 +40,12 @@ export function addPropertyToQuery(property) {
     }
   };
 }
+
+export function removePropertyFromQuery(property) {
+  return {
+    type: types.REMOVE_PROPERTY_FROM_QUERY,
+    payload: {
+      property
+    }
+  };
+}
