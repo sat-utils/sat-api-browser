@@ -49,3 +49,12 @@ export function removePropertyFromQuery(property) {
     }
   };
 }
+
+export function addCandidate(candidate) {
+  return {
+    type: types.ADD_CANDIDATE,
+    payload: {
+      candidate
+    }
+  };
+}
