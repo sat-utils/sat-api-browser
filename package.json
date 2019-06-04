@@ -1,5 +1,8 @@
 {
   "name": "sat-api-browser",
+  "author": "Sean Harkins <sean@developmentseed.org>",
+  "repository": "https://github.com/developmentseed/sat-api-browser",
+  "license": "MIT",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
