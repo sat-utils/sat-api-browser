@@ -6,10 +6,10 @@ import {
 // import Immutable from 'immutable';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
+import { apiMiddleware } from 'redux-api-middleware';
 import reducer from '../reducers/reducer';
 import stylesheetReducer from '../reducers/stylesheetReducer';
 import filterReducer from '../reducers/filterReducer';
-import apiMiddleware from './apiMiddleware';
 /*
 const composeEnhancers = composeWithDevTools({
   serialize: {

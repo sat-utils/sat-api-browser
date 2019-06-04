@@ -95,18 +95,18 @@ const setActiveImageItem = (state, payload) => {
 
 function setFilteredDataSource(state, payload) {
   const { filteredItemsSource, imagePointsSource } = stylesheetConstants;
-  const { json, filter } = payload;
-  const collection = addIntegerIds(state, json);
+  const currentFilter = state.get('currentFilter').toJS();
+  const collection = addIntegerIds(state, payload);
   const newState = state.withMutations((tempState) => {
     const { features } = collection;
     const centersCollection = createCentersCollection(features);
     if (features.length) {
-      const viewport = getViewport(state, json);
+      const viewport = getViewport(state, payload);
       tempState.setIn(['style', 'center'], fromJS(viewport.center));
       tempState.setIn(['style', 'zoom'], viewport.zoom - 0.5);
       tempState.set('highestId', state.get('highestId') + features.length);
     }
-    if (filter.page) {
+    if (currentFilter.page) {
       tempState.mergeDeepIn(['style', 'sources', filteredItemsSource, 'data'],
         fromJS(collection));
       tempState.mergeDeepIn(['style', 'sources', imagePointsSource, 'data'],
@@ -125,7 +125,8 @@ const initialState = Map({
   style: fromJS({}),
   activeImageItemId: 0,
   highestId: 0,
-  drawing: false
+  drawing: false,
+  currentFilter: fromJS({})
 });
 
 export default function stylesheetReducer(state = initialState, action) {
@@ -133,6 +134,13 @@ export default function stylesheetReducer(state = initialState, action) {
     case actions.SET_STYLE: {
       return state.merge({
         style: fromJS(action.payload.style)
+      });
+    }
+
+    case actions.FETCH_FILTERED_ITEMS: {
+      const { payload } = action;
+      return state.merge({
+        currentFilter: fromJS(payload)
       });
     }
 

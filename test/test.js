@@ -3,7 +3,8 @@ require('@babel/register')({
   presets: ['react-app']
 });
 
-require('./test_apiMiddleware');
+global.fetch = () => {};
+
 require('./test_stylesheetSelectors');
 require('./test_stylesheetReducer');
 require('./test_ProgressButton.js');

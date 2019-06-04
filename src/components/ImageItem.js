@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/icons/NoteAdd';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { format, parse } from 'date-fns';
@@ -21,6 +23,9 @@ const styles = () => ({
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
+    '&:hover': {
+      color: '#ff3333'
+    }
   },
   selected: {
     cursor: 'pointer',
@@ -93,6 +98,14 @@ class ImageItem extends React.Component {
           }}
           title={camelCollection}
           subtitle={date}
+          actionIcon={(
+            <IconButton
+              className={classes.icon}
+              onClick={() => console.log('test')}
+            >
+              <Icon />
+            </IconButton>
+          )}
         />
       </GridListTile>
     );

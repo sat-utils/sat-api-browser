@@ -5,9 +5,10 @@ import sinon from 'sinon';
 import { fromJS } from 'immutable';
 import { shallow, configure } from 'enzyme';
 import { none } from '../src/constants/applicationConstants';
-import { FilterFormWrapper } from '../src/components/FilterFormWrapper';
+// import { FilterFormWrapper } from '../src/components/FilterFormWrapper';
 
 configure({ adapter: new Adapter() });
+const proxyquire = require('proxyquire').noCallThru();
 
 function setup() {
   const fetchFilteredItemsAction = sinon.spy();
@@ -31,26 +32,36 @@ function setup() {
     bbox: [],
     drawing: false,
     classes: {},
-    queryProperties: fromJS(queryProperties)
+    queryProperties: fromJS(queryProperties),
+    currentFilter: fromJS({})
   };
+
+  const { FilterFormWrapper } = proxyquire(
+    '../src/components/FilterFormWrapper',
+    {
+      './FilterForm': () => (<div />)
+    }
+  );
+
   return {
     fetchFilteredItemsAction,
     startDrawingAction,
     props,
     minimum,
-    maximum
+    maximum,
+    FilterFormWrapper
   };
 }
 
 test('FilterFormWrapper date validation', (t) => {
-  const { props } = setup();
+  const { props, FilterFormWrapper } = setup();
   const wrapper = shallow((<FilterFormWrapper {...props} />));
   const instance = wrapper.instance();
 
   let values = {
     startdatetime: new Date().toISOString().substring(0, 16),
     enddatetime: new Date().toISOString().substring(0, 16),
-    queryFilters: {}
+    query: {}
   };
   let errors = instance.validate(values);
   t.ok(errors.startdatetime, 'Reports range error when dates are equal.');
@@ -58,7 +69,7 @@ test('FilterFormWrapper date validation', (t) => {
   values = {
     startdatetime: new Date('1995-12-17T03:24:00').toISOString().substring(0, 16),
     enddatetime: new Date().toISOString().substring(0, 16),
-    queryFilters: {}
+    query: {}
   };
   errors = instance.validate(values);
   t.equal(Object.keys(errors).length, 0, 'No errors with valid date range');
@@ -66,7 +77,7 @@ test('FilterFormWrapper date validation', (t) => {
   values = {
     startdatetime: 'wat',
     enddatetime: 'wat',
-    queryFilters: {}
+    query: {}
   };
   errors = instance.validate(values);
   t.equal(Object.keys(errors).length, 2, 'Reports errors for invalid date strings');
@@ -75,63 +86,61 @@ test('FilterFormWrapper date validation', (t) => {
 });
 
 test('FilterFormWrapper query filter validation', (t) => {
-  const { props } = setup();
+  const { props, FilterFormWrapper } = setup();
   const wrapper = shallow((<FilterFormWrapper {...props} />));
   const instance = wrapper.instance();
 
   let values = {
-    queryFilters: {
+    query: {
       'eo:collection': {
-        operator: 'eq',
-        value: ''
+        eq: ''
       }
     }
   };
   let errors = instance.validate(values);
-  t.ok(errors.queryFilters['eo:collection'].value,
+  t.ok(errors.query['eo:collection'],
     'Reports error when string value for query filter is empty string.');
 
   values = {
-    queryFilters: {
+    query: {
       'eo:collection': {
-        operator: 'eq',
-        value: 'landsat'
+        eq: 'test'
       }
     }
   };
   errors = instance.validate(values);
-  t.notOk(errors.queryFilters,
+  t.notOk(errors.query,
     'No error for valid string value');
   t.end();
 });
 
 test('FilterFormWrapper query filter range validation', (t) => {
-  const { props } = setup();
+  const { props, FilterFormWrapper } = setup();
   const wrapper = shallow((<FilterFormWrapper {...props} />));
   const instance = wrapper.instance();
 
   let values = {
-    queryFilters: {
+    query: {
       'eo:cloud_cover': {
-        operator: 'eq',
-        value: 120
+        gte: 20,
+        lte: 120
       }
     }
   };
   let errors = instance.validate(values);
-  t.ok(errors.queryFilters['eo:cloud_cover'].value,
+  t.ok(errors.query['eo:cloud_cover'],
     'Reports range error when value falls outside of min max.');
 
   values = {
-    queryFilters: {
+    query: {
       'eo:cloud_cover': {
-        operator: 'eq',
-        value: 90
+        gte: 20,
+        lte: 40
       }
     }
   };
   errors = instance.validate(values);
-  t.notOk(errors.queryFilters,
-    'No error when value falls inside of min max.');
+  t.notOk(errors.query,
+    'No error when value range inside of min max.');
   t.end();
 });

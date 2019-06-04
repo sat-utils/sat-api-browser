@@ -6,6 +6,12 @@ import stylesheetReducer from '../src/reducers/stylesheetReducer';
 import stylesheet from './fixtures/stylesheet.json';
 import items from './fixtures/items.json';
 
+const {
+  filteredItemsSource,
+  imagePointsSource,
+  activeImagePoint
+} = stylesheetConstants;
+
 function getBaseState() {
   const state = fromJS({
     style: stylesheet,
@@ -15,7 +21,8 @@ function getBaseState() {
     clientSize: fromJS({
       clientWidth: 100,
       clientHeight: 100
-    })
+    }),
+    currentFilter: fromJS({})
   });
   return state;
 }
@@ -37,18 +44,10 @@ test('stylesheetReducer', (t) => {
   const state = getBaseState();
   const action = {
     type: actions.FETCH_FILTERED_ITEMS_SUCCEEDED,
-    payload: {
-      json: items,
-      filter: {}
-    }
+    payload: items
   };
 
   const fetchItemsState = stylesheetReducer(state, action);
-  const {
-    filteredItemsSource,
-    imagePointsSource,
-    activeImagePoint
-  } = stylesheetConstants;
   const actualFilteredItems = fetchItemsState.getIn(
     ['style', 'sources', filteredItemsSource, 'data', 'features']
   );
@@ -90,5 +89,25 @@ test('stylesheetReducer', (t) => {
     'Sets filter on activeImagePoint layer');
   t.equal(activeImageState.get('activeImageItemId'),
     setActiveAction.payload.imageId, 'Set activeImageItemId value');
+  t.end();
+});
+
+
+test('stylesheetReducer', (t) => {
+  const state = getBaseState();
+  const action = {
+    type: actions.FETCH_FILTERED_ITEMS_SUCCEEDED,
+    payload: items
+  };
+  const fetchItemsState = stylesheetReducer(state, action);
+  const pageState = fetchItemsState.set('currentFilter', fromJS({ page: 1 }));
+
+  const secondPageState = stylesheetReducer(pageState, action);
+
+  const actualFilteredItems = secondPageState.getIn(
+    ['style', 'sources', filteredItemsSource, 'data', 'features']
+  );
+  t.equal(actualFilteredItems.size, items.features.length * 2,
+    'Updates filteredItemsSource with second page of features');
   t.end();
 });

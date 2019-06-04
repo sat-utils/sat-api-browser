@@ -21,6 +21,8 @@ const PropertySelector = (props) => {
       // Disable previously selected properties
       if (queryProperties.get(key)) {
         property.disabled = true;
+      } else {
+        property.disabled = false;
       }
       accum.push(property);
     }

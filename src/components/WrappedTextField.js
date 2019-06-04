@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 const WrappedTextField = (props) => {
   const {
     name,
-    handleChange,
+    setFieldValue,
     handleBlur,
     errors,
     values,
@@ -22,11 +22,13 @@ const WrappedTextField = (props) => {
       name={name}
       label={label}
       type={type}
-      value={value || ''}
+      value={value ? value.eq : ''}
       margin="normal"
-      onChange={handleChange}
+      onChange={(event) => {
+        setFieldValue(`${name}.eq`, event.target.value);
+      }}
       onBlur={handleBlur}
-      style={{ verticalAlign: 'unset', marginLeft: '10px' }}
+      style={{ marginLeft: '10px', marginTop: '0px', marginBottom: '10px' }}
       helperText={
         (fieldError
         && String(fieldError))
@@ -45,7 +47,7 @@ WrappedTextField.defaultProps = {
 
 WrappedTextField.propTypes = {
   name: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
   handleBlur: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,

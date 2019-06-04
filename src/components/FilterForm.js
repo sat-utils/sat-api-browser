@@ -10,7 +10,6 @@ import PictureIcon from '@material-ui/icons/PictureInPicture';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import green from '@material-ui/core/colors/green';
-import { Persist } from 'formik-persist';
 import DatePicker from './DatePicker';
 import { loading, failed } from '../constants/applicationConstants';
 import ProgressButton from './ProgressButton';
@@ -139,9 +138,6 @@ export const FilterForm = (props) => {
               onClick={handleSubmit}
             />
           </div>
-          <Persist
-            name="filter-form"
-          />
         </form>
       </Grid>
       <Snackbar

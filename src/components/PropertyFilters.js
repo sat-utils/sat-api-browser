@@ -4,11 +4,13 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import WrappedTextField from './WrappedTextField';
-import OperatorSelector from './OperatorSelector';
 import { getQueryProperties } from '../reducers/filterSelectors';
-import { queryFilters } from '../constants/applicationConstants';
-
+import { removePropertyFromQuery } from '../actions/filterActions';
+import { query } from '../constants/applicationConstants';
+import RangeSlider from './RangeSlider';
 
 const styles = theme => ({
   elements: {
@@ -21,6 +23,8 @@ const PropertyFilters = (props) => {
     queryProperties,
     values,
     classes,
+    remove,
+    setFieldValue,
     ...formikFieldProps
   } = props;
   const propertyFilters = queryProperties.entrySeq().map(([key, value]) => {
@@ -28,37 +32,59 @@ const PropertyFilters = (props) => {
     const type = value.get('type');
     const min = value.get('minimum');
     const max = value.get('maximum');
-    let label;
-    if (type === 'number' && min !== null && max !== null) {
-      label = `${min} - ${max}`;
+    const name = `${query}.${key}`;
+    let valueControl;
+    if (type === 'number') {
+      valueControl = (
+        <RangeSlider
+          name={name}
+          min={min}
+          max={max}
+          values={values}
+          setFieldValue={setFieldValue}
+          {...formikFieldProps}
+        />
+      );
     } else {
-      label = type;
+      valueControl = (
+        <WrappedTextField
+          name={name}
+          label={title}
+          type={type}
+          values={values}
+          className={classes.elements}
+          setFieldValue={setFieldValue}
+          {...formikFieldProps}
+        />
+      );
     }
-
     return (
-      <div key={key}>
+      <div
+        key={key}
+        style={{ display: 'flex', alignItems: 'center', paddingTop: '15px' }}
+      >
         <Chip
           label={title}
           className={classes.elements}
         />
-        <OperatorSelector
-          name={`${queryFilters}.${key}.operator`}
-          values={values}
-          onlyEq={type === 'string'}
+        {valueControl}
+        <IconButton
           className={classes.elements}
-          {...formikFieldProps}
-        />
-        <WrappedTextField
-          name={`${queryFilters}.${key}.value`}
-          label={label}
-          type={type}
-          values={values}
-          className={classes.elements}
-          {...formikFieldProps}
-        />
+          onClick={() => {
+            // This remove the property from Redux and the value from the form
+            // values.
+            remove(key);
+            const newQuery = Object.assign({}, values.query);
+            delete newQuery[key];
+            setFieldValue(query, newQuery);
+          }}
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
       </div>
     );
   });
+
   return (
     <div>
       {propertyFilters}
@@ -69,11 +95,17 @@ const PropertyFilters = (props) => {
 PropertyFilters.propTypes = {
   queryProperties: ImmutablePropTypes.map.isRequired,
   classes: PropTypes.object.isRequired,
-  values: PropTypes.object.isRequired
+  values: PropTypes.object.isRequired,
+  remove: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   queryProperties: getQueryProperties(state)
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(PropertyFilters));
+const mapDispatchToProps = {
+  remove: removePropertyFromQuery
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PropertyFilters));
