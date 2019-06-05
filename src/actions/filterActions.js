@@ -1,7 +1,6 @@
 import { RSAA } from 'redux-api-middleware';
 import * as types from '../constants/action_types';
-
-const BASE_URL = process.env.REACT_APP_API_URL;
+import config from '../config';
 
 export function fetchFilteredItems(filter) {
   const fetchAction = {
@@ -10,7 +9,7 @@ export function fetchFilteredItems(filter) {
   };
   return {
     [RSAA]: {
-      endpoint: `${BASE_URL}/stac/search`,
+      endpoint: `${config.endpoint}/stac/search`,
       method: 'POST',
       types: [
         fetchAction,

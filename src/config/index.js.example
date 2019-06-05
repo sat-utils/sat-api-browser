@@ -1,0 +1,6 @@
+export default {
+  appName: 'stac-search-gui',
+  endpoint: 'https://sat-api.developmentseed.org',
+  pageLimit: 10,
+  mapboxToken: 'xxxxx' 
+}

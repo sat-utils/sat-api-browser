@@ -15,8 +15,9 @@ import * as stylesheetActionCreators
 import * as stylesheetSelectors from '../reducers/stylesheetSelectors';
 import * as stylesheetConstants from '../constants/stylesheetConstants';
 import MapLoadingProgress from './MapLoadingProgress';
+import config from '../config';
 
-const accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+const accessToken = config.mapboxToken;
 
 const addLayers = (map) => {
   const {

@@ -28,6 +28,14 @@ Installs necessary dependencies.
 
 In the project directory, you can run:
 
+## config
+
+Copy the config file and edit the values:
+
+```
+cp src/config/index.js.example src/config/index.js
+```
+
 ### `yarn start`
 
 Runs the app in the development mode.<br>
@@ -47,15 +55,11 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
-The following environment variables are required.  You can copy and rename `.env.sample` to `.env` for use as a template.<br>
-`SKIP_PREFLIGHT_CHECK=true`<br>
-`REACT_APP_API_URL` The URL with port of the stac compliant api.<br>
-`REACT_APP_MAPBOX_ACCESS_TOKEN`<br>
-`REACT_APP_RESULT_LIMIT`
+The following environment variables are required. 
+`SKIP_PREFLIGHT_CHECK=true`
 
-### `yarn run build && aws s3 sync build/ s3://sat-api-browser-dev`
-
-Build and deploy to s3 bucket.
+### Build
+`yarn run build`
 
 ## References
 - Based on [sat-api-browser](https://github.com/developmentseed/sat-api-browser)
