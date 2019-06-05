@@ -1,12 +1,12 @@
 
-## sat-api-browser
+## stac-search-gui 
 A query constructor and results visualizer for [stac-spec](https://github.com/radiantearth/stac-spec/tree/master/api-spec)
 compliant APIs.
 
 ## Intent
 
 The STAC `api-spec` provides querying and filtering capabilities for data
-represented as STAC catalogs.  The `sat-api-browser`'s intent is to simplify
+represented as STAC catalogs.  The `stac-search-gui`'s intent is to simplify
 STAC compliant API filter construction and results visualization by providing a
 UI which lets users use STAC extension [schemas](https://github.com/radiantearth/stac-spec/tree/master/extensions)
 to build and validate filters. 
@@ -57,32 +57,5 @@ The following environment variables are required.  You can copy and rename `.env
 
 Build and deploy to s3 bucket.
 
-### Design Approach
-
-The application uses [Redux](https://redux.js.org/) for state management.
-
-The Redux [store](https://redux.js.org/basics/store) is a vanilla JS object but each logical state slice is an [ImmutableJS](https://facebook.github.io/immutable-js/) [map](https://facebook.github.io/immutable-js/docs/#/Map).  
-
-State slices are never queried directly from the store but are accessed via [selectors](https://redux.js.org/recipes/computingderiveddata) which are memomized using the [Reselect](https://github.com/reduxjs/reselect) library where appropriate.
-
-The application design uses both Presentational and Container components but makes liberal use of [react-redux](https://react-redux.js.org/docs/introduction/basic-tutorial) `connect` as outlined [here](https://redux.js.org/faq/reactredux#should-i-only-connect-my-top-component-or-can-i-connect-multiple-components-in-my-tree).
-
-State that is transient or does not affect other components in the application can be maintained directly in components where appropriate as described [here](https://redux.js.org/faq/organizingstate#do-i-have-to-put-all-my-state-into-redux-should-i-ever-use-reacts-setstate).
-
-Pure stateless React [components](https://reactjs.org/docs/state-and-lifecycle.html) are preferred but Class components are used where local state is required.
-
-Any impure actions which may have side effects (asynchronous API requests, interaction with browser local storage) are isolated in Redux [middleware](https://redux.js.org/advanced/middleware).
-
-Cross-cutting actions are also managed through the use of middleware.
-
-The application uses [Mapbox GL JS](https://www.mapbox.com/mapbox-gl-js/api/) for map display and management.  When the `Map` React component mounts it loads a [style](https://www.mapbox.com/mapbox-gl-js/style-spec) and some GeoJSON data.  This state is then pushed into the Redux store where all subsequent actions act on this state and provide the Map component with the new updated style via props. A more detailed description of this approach is available in this blog [post](https://blog.mapbox.com/mapbox-gl-js-in-a-reactive-application-e08eecf0221b) by Tom Macwright.
-
-The application uses [Material-UI](https://material-ui.com/) for UI components and styling.
-
-Individual component style [overrides](https://material-ui.com/customization/overrides/) are acheived using Material UIs own css injection with [JSS](https://cssinjs.org/?v=v9.8.7).
-
-The application store is configured to support the [redux-devtools-extension](https://github.com/zalmoxisus/redux-devtools-extension) for advanced debugging with state rewind and fast forward.
-
-Because the application makes extensive use of [HOCs](https://reactjs.org/docs/higher-order-components.html), wrapped components are exposed as the default export while raw components are available as a named component.  This allows for unit testing without invoking HOC behavior.
-
-The application uses [tape-await](https://github.com/mbostock/tape-await) to simplify asynchronous test flow for middleware.
+## References
+- Based on [sat-api-browser](https://github.com/developmentseed/sat-api-browser)
