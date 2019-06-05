@@ -1,48 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import { getIn } from 'formik';
+import { InlineDateTimePicker } from 'material-ui-pickers';
 
 const styles = theme => ({
   textField: {
-    marginTop: theme.spacing.unit,
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+    display: 'block',
+    marginTop: theme.spacing.unit * 2
   },
 });
 
 const DatePicker = (props) => {
   const {
     name,
-    handleChange,
+    setFieldValue,
     errors,
     values,
     label,
     classes
   } = props;
 
+  // Limiting props.
+  const limit = {};
+  if (name === 'startdatetime') {
+    limit.maxDate = getIn(values, 'enddatetime');
+  }
+  if (name === 'enddatetime') {
+    limit.minDate = getIn(values, 'startdatetime');
+  }
+
   const fieldError = getIn(errors, name);
   const value = getIn(values, name);
   return (
-    <TextField
-      fullWidth
-      name={name}
+    <InlineDateTimePicker
       label={label}
-      type="datetime-local"
-      onChange={handleChange}
+      error={Boolean(errors[name])}
+      helperText={fieldError && String(fieldError)}
       value={value}
+      name={name}
+      format="yyyy/MM/dd hh:mm:ss a"
       className={classes.textField}
-      helperText={
-        (fieldError
-        && String(fieldError))
-      }
-      error={
-        Boolean(errors[name])
-      }
-      InputLabelProps={{
-        shrink: true,
-      }}
+      onChange={(v => setFieldValue(name, v))}
+      {...limit}
     />
   );
 };
@@ -50,7 +50,7 @@ const DatePicker = (props) => {
 DatePicker.propTypes = {
   name: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
-  handleChange: PropTypes.func.isRequired,
+  setFieldValue: PropTypes.func.isRequired,
   values: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired
