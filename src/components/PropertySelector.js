@@ -43,7 +43,7 @@ const PropertySelector = (props) => {
       value="None"
       disabled
     >
-      Pick a property
+      Add new filter
     </MenuItem>
   );
   return (
@@ -53,10 +53,12 @@ const PropertySelector = (props) => {
         onChange={(event) => {
           addPropertyToQueryAction(event.target.value);
         }}
+        style={{ marginTop: '16px' }}
+        fullWidth
       >
         {menuItems}
       </Select>
-      <FormHelperText>Add a property to filter</FormHelperText>
+      <FormHelperText>Select a property to filter</FormHelperText>
     </Fragment>
   );
 };

@@ -112,11 +112,11 @@ export const FilterForm = (props) => {
           >
             Property Filters
           </FormLabel>
-          <PropertySelector />
           <PropertyFilters
             values={values}
             {...formikFieldProps}
           />
+          <PropertySelector />
           <div className={classes.submit}>
             <ProgressButton
               type="submit"
