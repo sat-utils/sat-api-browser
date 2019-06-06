@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import FormLabel from '@material-ui/core/FormLabel';
 import WrappedTextField from './WrappedTextField';
 import { getQueryProperties } from '../reducers/filterSelectors';
 import { removePropertyFromQuery } from '../actions/filterActions';
@@ -13,8 +14,16 @@ import { query } from '../constants/applicationConstants';
 import RangeSlider from './RangeSlider';
 
 const styles = theme => ({
-  elements: {
-    margin: theme.spacing.unit
+  wrapper: {
+    padding: '16px',
+    paddingTop: 0,
+    background: '#F8F8F8',
+    marginTop: theme.spacing.unit * 2
+  },
+  labelWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: -(theme.spacing.unit * 2)
   }
 });
 
@@ -27,6 +36,9 @@ const PropertyFilters = (props) => {
     setFieldValue,
     ...formikFieldProps
   } = props;
+
+  if (!queryProperties.size) return null;
+
   const propertyFilters = queryProperties.entrySeq().map(([key, value]) => {
     const title = value.get('title');
     const type = value.get('type');
@@ -61,32 +73,34 @@ const PropertyFilters = (props) => {
     return (
       <div
         key={key}
-        style={{ display: 'flex', alignItems: 'center', paddingTop: '15px' }}
+        style={{
+          marginBottom: '24px'
+        }}
       >
-        <Chip
-          label={title}
-          className={classes.elements}
-        />
+        <div className={classes.labelWrapper}>
+          <FormLabel component="label" style={{ flexGrow: 1, }}>
+            {title}
+          </FormLabel>
+          <IconButton
+            onClick={() => {
+              // This remove the property from Redux and the value from the form
+              // values.
+              remove(key);
+              const newQuery = Object.assign({}, values.query);
+              delete newQuery[key];
+              setFieldValue(query, newQuery);
+            }}
+          >
+            <DeleteIcon fontSize="small" />
+          </IconButton>
+        </div>
         {valueControl}
-        <IconButton
-          className={classes.elements}
-          onClick={() => {
-            // This remove the property from Redux and the value from the form
-            // values.
-            remove(key);
-            const newQuery = Object.assign({}, values.query);
-            delete newQuery[key];
-            setFieldValue(query, newQuery);
-          }}
-        >
-          <DeleteIcon fontSize="small" />
-        </IconButton>
       </div>
     );
   });
 
   return (
-    <div>
+    <div className={classes.wrapper}>
       {propertyFilters}
     </div>
   );

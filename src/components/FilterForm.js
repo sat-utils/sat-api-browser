@@ -5,8 +5,6 @@ import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
 import CreateIcon from '@material-ui/icons/Create';
-import Chip from '@material-ui/core/Chip';
-import PictureIcon from '@material-ui/icons/PictureInPicture';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import green from '@material-ui/core/colors/green';
@@ -19,10 +17,11 @@ import PropertyFilters from './PropertyFilters';
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
+    marginLeft: 0
   },
   grid: {
-    marginTop: theme.spacing.unit * 3,
-    maxHeight: 'calc(100vh - 220px)',
+    paddingTop: theme.spacing.unit * 3,
+    paddingBottom: theme.spacing.unit * 3,
     overflowY: 'scroll'
   },
   submit: {
@@ -32,7 +31,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit
   },
   label: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit * 4
   },
   error: {
     backgroundColor: theme.palette.error.dark,
@@ -58,23 +57,6 @@ export const FilterForm = (props) => {
     ...formikFieldProps
   } = props;
 
-  let bboxCoords;
-  if (bbox) {
-    bboxCoords = (
-      <Chip
-        icon={<PictureIcon className={classes.bboxChip} />}
-        label="BBOX"
-        className={classes.bboxChip}
-      />
-    );
-  } else {
-    bboxCoords = (
-      <Chip
-        label="BBOX Required"
-        color="secondary"
-      />
-    );
-  }
   return (
     <Grid
       container
@@ -86,26 +68,34 @@ export const FilterForm = (props) => {
           <FormLabel component="legend">
             Date Range
           </FormLabel>
-          <DatePicker
-            name="startdatetime"
-            label="Start Date"
-            values={values}
-            {...formikFieldProps}
-          />
-          <DatePicker
-            name="enddatetime"
-            label="End Date"
-            values={values}
-            {...formikFieldProps}
-          />
+          <Grid container spacing={8}>
+            <Grid item xs={6}>
+              <DatePicker
+                name="startdatetime"
+                label="Start Date (required)"
+                values={values}
+                {...formikFieldProps}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <DatePicker
+                name="enddatetime"
+                label="End Date (required)"
+                values={values}
+                {...formikFieldProps}
+              />
+            </Grid>
+          </Grid>
+
           <FormLabel
             component="legend"
             className={classes.label}
           >
-            Area Of Interest
+            Area Of Interest (required)
           </FormLabel>
           <Button
             variant="contained"
+            size="small"
             color="primary"
             className={classes.button}
             disabled={drawing}
@@ -116,7 +106,6 @@ export const FilterForm = (props) => {
               className={classes.rightIcon}
             />
           </Button>
-          {bboxCoords}
           <FormLabel
             component="legend"
             className={classes.label}
@@ -128,7 +117,6 @@ export const FilterForm = (props) => {
             values={values}
             {...formikFieldProps}
           />
-          <br />
           <div className={classes.submit}>
             <ProgressButton
               type="submit"
