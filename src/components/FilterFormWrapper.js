@@ -1,5 +1,12 @@
 import { connect } from 'react-redux';
 import { withFormik } from 'formik';
+import {
+  isValid,
+  isAfter,
+  subDays,
+  parseISO,
+  format
+} from 'date-fns';
 import { fetchFilteredItems } from '../actions/filterActions';
 import { startDrawing } from '../actions/stylesheetActionCreators';
 import {
@@ -10,8 +17,9 @@ import {
 } from '../reducers/filterSelectors';
 import { getDrawing } from '../reducers/stylesheetSelectors';
 import FilterForm from './FilterForm';
-import { query as queryLiteral }
-  from '../constants/applicationConstants';
+import {
+  query as queryLiteral
+} from '../constants/applicationConstants';
 
 const limit = process.env.REACT_APP_RESULT_LIMIT;
 
@@ -27,13 +35,14 @@ export const FilterFormWrapper = withFormik({
   mapPropsToValues: (props) => {
     const currentFilter = props.currentFilter.toJS();
     const { query, time } = currentFilter;
-    let dateTimes = [];
+    const dateTimes = [];
     if (time) {
       const times = time.split('/');
-      dateTimes = times;
+      dateTimes[0] = parseISO(times[0]);
+      dateTimes[1] = parseISO(times[1]);
     } else {
-      dateTimes[0] = new Date().toISOString().substring(0, 16);
-      dateTimes[1] = new Date().toISOString().substring(0, 16);
+      dateTimes[0] = subDays(new Date(), 1);
+      dateTimes[1] = new Date();
     }
     const initialValues = {
       query: query || {},
@@ -69,17 +78,17 @@ export const FilterFormWrapper = withFormik({
       return errorAccum;
     }, {});
 
-    if (values.startdatetime >= values.enddatetime) {
+    const startD = new Date(values.startdatetime);
+    const endD = new Date(values.enddatetime);
+
+    if (isAfter(startD, endD)) {
       errors.startdatetime = 'Start Date must be before End Date';
     }
-    const dateRegex = /^(-?(?:[1-9][0-9]*)?[0-9]{4})-(1[0-2]|0[1-9])-(3[01]|0[1-9]|[12][0-9])T(2[0-3]|[01][0-9]):([0-5][0-9])?$/;
     const invalidDateMessage = 'Must be a valid date and time';
-    const startValid = dateRegex.test(values.startdatetime);
-    if (!startValid) {
+    if (!isValid(startD)) {
       errors.startdatetime = invalidDateMessage;
     }
-    const endValid = dateRegex.test(values.enddatetime);
-    if (!endValid) {
+    if (!isValid(endD)) {
       errors.enddatetime = invalidDateMessage;
     }
 
@@ -98,11 +107,12 @@ export const FilterFormWrapper = withFormik({
       query
     } = values;
 
+    const formatStr = `yyyy-MM-dd'T'HH:mm`;
     const filter = {
       limit,
       bbox,
       query,
-      time: `${startdatetime}/${enddatetime}`
+      time: `${format(startdatetime, formatStr)}/${format(enddatetime, formatStr)}`
     };
     fetchFilteredItemsAction(filter);
     setSubmitting(false);

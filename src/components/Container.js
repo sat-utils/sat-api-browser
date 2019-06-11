@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
 import Toolbar from './Toolbar';
 import FilterTabs from './FilterTabs';
 import Map from './Map';
@@ -24,32 +27,34 @@ const styles = theme => ({
 export const Container = (props) => {
   const { classes } = props;
   return (
-    <div className={classes.root}>
-      <AppBar
-        position="fixed"
-        color="default"
-        className={classes.appBar}
-      >
-        <Toolbar />
-      </AppBar>
-      <Grid container spacing={0}>
-        <Grid
-          className={classes.sidebar}
-          item
-          xs={12}
-          sm={6}
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <div className={classes.root}>
+        <AppBar
+          position="fixed"
+          color="default"
+          className={classes.appBar}
         >
-          <FilterTabs />
+          <Toolbar />
+        </AppBar>
+        <Grid container spacing={0}>
+          <Grid
+            className={classes.sidebar}
+            item
+            xs={12}
+            sm={6}
+          >
+            <FilterTabs />
+          </Grid>
+          <Grid
+            item
+            xs={1}
+            sm={6}
+          >
+            <Map />
+          </Grid>
         </Grid>
-        <Grid
-          item
-          xs={1}
-          sm={6}
-        >
-          <Map />
-        </Grid>
-      </Grid>
-    </div>
+      </div>
+    </MuiPickersUtilsProvider>
   );
 };
 

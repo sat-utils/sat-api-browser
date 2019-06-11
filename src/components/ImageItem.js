@@ -9,7 +9,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Icon from '@material-ui/icons/NoteAdd';
 import scrollIntoView from 'scroll-into-view-if-needed';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { format, parse } from 'date-fns';
+import {
+  parseISO,
+  format
+} from 'date-fns';
 
 const styles = () => ({
   tile: {
@@ -70,7 +73,7 @@ class ImageItem extends React.Component {
       scrollPosition,
       ...other
     } = this.props;
-    const date = format(parse(datetime), 'MM/DD/YYYY - HH:mm:ss');
+    const date = format(parseISO(datetime), 'MM/dd/yyyy - HH:mm:ss');
     const camelCollection = collection
       .replace(/(^|[\s-])\S/g, letter => (letter.toUpperCase()));
     return (
