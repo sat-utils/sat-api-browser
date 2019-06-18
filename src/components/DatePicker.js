@@ -39,7 +39,7 @@ const DatePicker = (props) => {
       helperText={fieldError && String(fieldError)}
       value={value}
       name={name}
-      format="yyyy/MM/dd hh:mm:ss a"
+      format="yyyy/MM/dd hh:mm a"
       className={classes.textField}
       onChange={(v => setFieldValue(name, v))}
       {...limit}
