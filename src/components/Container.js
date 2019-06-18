@@ -18,9 +18,14 @@ const styles = theme => ({
     zIndex: theme.zIndex.drawer + 1
   },
   sidebar: {
-    padding: theme.spacing.unit,
     color: theme.palette.text.secondary,
-    marginTop: '70px'
+    display: 'flex',
+    flexFlow: 'column',
+    height: '100%'
+  },
+  mainContainer: {
+    height: 'calc(100vh - 64px)',
+    marginTop: '64px'
   }
 });
 
@@ -36,7 +41,7 @@ export const Container = (props) => {
         >
           <Toolbar />
         </AppBar>
-        <Grid container spacing={0}>
+        <Grid container spacing={0} className={classes.mainContainer}>
           <Grid
             className={classes.sidebar}
             item

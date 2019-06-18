@@ -44,7 +44,7 @@ class RangeSlider extends React.Component {
     return (
       <Range
         name={name}
-        style={{ marginLeft: '10px', fontFamily: 'Roboto' }}
+        style={{ fontFamily: 'Roboto' }}
         allowCross={false}
         min={min}
         max={max}

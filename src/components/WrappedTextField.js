@@ -20,15 +20,15 @@ const WrappedTextField = (props) => {
   return (
     <TextField
       name={name}
-      label={label}
+      placeholder={label}
+      fullWidth
       type={type}
       value={value ? value.eq : ''}
-      margin="normal"
+      margin="none"
       onChange={(event) => {
         setFieldValue(`${name}.eq`, event.target.value);
       }}
       onBlur={handleBlur}
-      style={{ marginLeft: '10px', marginTop: '0px', marginBottom: '10px' }}
       helperText={
         (fieldError
         && String(fieldError))

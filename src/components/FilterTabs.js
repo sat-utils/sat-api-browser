@@ -35,7 +35,7 @@ const FilterTabs = (props) => {
     );
   }
   return (
-    <div>
+    <React.Fragment>
       <Tabs
         value={activeTab}
         indicatorColor="primary"
@@ -55,7 +55,7 @@ const FilterTabs = (props) => {
         />
       </Tabs>
       {activeContent}
-    </div>
+    </React.Fragment>
   );
 };
 

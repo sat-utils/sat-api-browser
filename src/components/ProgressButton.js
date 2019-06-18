@@ -8,7 +8,7 @@ import { loading } from '../constants/applicationConstants';
 
 const styles = theme => ({
   wrapper: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing.unit * 2,
     position: 'relative',
   },
   buttonProgress: {
