@@ -18,7 +18,7 @@ for data in a more organic and iterative fashion (much like shopping) rather tha
 attempting to build a single all encompassing query to capture appropriate results
 like traditional data search applications.
 
-This project was initiated by [@sharkinsspatial](https://github.com/sharkinsspatial) as part of Development Seed's wider work in building the [sat-api](https://github.com/sat-utils/sat-api)
+This project was initiated by [@sharkinsspatial](https://github.com/sharkinsspatial) as part of [Development Seed's](https://developmentseed.org/) wider work in building the [sat-api](https://github.com/sat-utils/sat-api)
 and open sourced to to the wider community to help drive contributions and new functionality.  New contributions are welcomed and you can contact
 [@sharkinsspatial](https://github.com/sharkinsspatial) or info@developmentseed.org for additional support or assistance with customization.
 
