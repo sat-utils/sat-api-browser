@@ -59,12 +59,12 @@ test('FilterFormWrapper date validation', (t) => {
   const instance = wrapper.instance();
 
   let values = {
-    startdatetime: new Date().toISOString().substring(0, 16),
-    enddatetime: new Date().toISOString().substring(0, 16),
+    startdatetime: new Date('1995-12-17T03:24:00').toISOString().substring(0, 16),
+    enddatetime: new Date('1994-12-17T03:24:00').toISOString().substring(0, 16),
     query: {}
   };
   let errors = instance.validate(values);
-  t.ok(errors.startdatetime, 'Reports range error when dates are equal.');
+  t.ok(errors.startdatetime, 'Reports range error when start date is before end date.');
 
   values = {
     startdatetime: new Date('1995-12-17T03:24:00').toISOString().substring(0, 16),

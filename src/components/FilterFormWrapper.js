@@ -3,6 +3,7 @@ import { withFormik } from 'formik';
 import {
   isValid,
   isAfter,
+  isEqual,
   subDays,
   parseISO,
   format
@@ -78,17 +79,20 @@ export const FilterFormWrapper = withFormik({
       return errorAccum;
     }, {});
 
-    const startD = new Date(values.startdatetime);
-    const endD = new Date(values.enddatetime);
-
-    if (isAfter(startD, endD)) {
-      errors.startdatetime = 'Start Date must be before End Date';
+    const startDate = new Date(values.startdatetime);
+    const endDate = new Date(values.enddatetime);
+    const dateRangeErrorMessage = 'Start Date must be before End Date';
+    if (isAfter(startDate, endDate)) {
+      errors.startdatetime = dateRangeErrorMessage;
+    }
+    if (isEqual(startDate, endDate)) {
+      errors.startdatetime = dateRangeErrorMessage;
     }
     const invalidDateMessage = 'Must be a valid date and time';
-    if (!isValid(startD)) {
+    if (!isValid(startDate)) {
       errors.startdatetime = invalidDateMessage;
     }
-    if (!isValid(endD)) {
+    if (!isValid(endDate)) {
       errors.enddatetime = invalidDateMessage;
     }
 
