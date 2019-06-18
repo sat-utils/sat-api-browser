@@ -1,7 +1,8 @@
 
 ## sat-api-browser
 A query constructor and results visualizer for [stac-spec](https://github.com/radiantearth/stac-spec/tree/master/api-spec)
-compliant APIs.
+compliant APIs. See [sat-api-browser](http://sat-api-browser.s3-website-us-east-1.amazonaws.com/) for a test instance leveraging the 
+[sat-api](https://github.com/sat-utils/sat-api).
 
 ## Intent
 
@@ -19,7 +20,7 @@ attempting to build a single all encompassing query to capture appropriate resul
 like traditional data search applications.
 
 This project was initiated by [@sharkinsspatial](https://github.com/sharkinsspatial) as part of [Development Seed's](https://developmentseed.org/) wider work in building the [sat-api](https://github.com/sat-utils/sat-api)
-and open sourced to to the wider community to help drive contributions and new functionality.  New contributions are welcomed and you can contact
+and open sourced to to the community to help drive contributions and new functionality.  New contributions are welcomed and you can contact
 [@sharkinsspatial](https://github.com/sharkinsspatial) or info@developmentseed.org for additional support or assistance with customization.
 
 ### `yarn install`
