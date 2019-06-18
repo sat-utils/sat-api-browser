@@ -13,13 +13,14 @@ to build and validate filters.
 
 Once the user has received the results of the query, they can select interesting
 candidate items and save them to a 'shopping cart' of datasets (represented as STAC items)
-that they can leverage in other applications.  This provides the ability to search
+that they can leverage in other applications (via STAC catalog or the [mosaicjson-spec](https://github.com/developmentseed/mosaicjson-spec)).  This provides the ability to search
 for data in a more organic and iterative fashion (much like shopping) rather than
 attempting to build a single all encompassing query to capture appropriate results
 like traditional data search applications.
 
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was initiated by [@sharkinsspatial](https://github.com/sharkinsspatial) as part of Development Seed's wider work in building the [sat-api](https://github.com/sat-utils/sat-api)
+and open sourced to to the wider community to help drive contributions and new functionality.  New contributions are welcomed and you can contact
+[@sharkinsspatial](https://github.com/sharkinsspatial) or info@developmentseed.org for additional support or assistance with customization.
 
 ### `yarn install`
 Installs necessary dependencies.
