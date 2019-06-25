@@ -23,25 +23,43 @@ This project was initiated by [@sharkinsspatial](https://github.com/sharkinsspat
 and open sourced to to the community to help drive contributions and new functionality.  New contributions are welcomed and you can contact
 [@sharkinsspatial](https://github.com/sharkinsspatial) or info@developmentseed.org for additional support or assistance with customization.
 
-### `yarn install`
-Installs necessary dependencies.
+## Build, Run, Deploy, and Test
 
-## Available Scripts
+### Install Dependencies
 
-In the project directory, you can run:
+Install the necessary dependencies with:
 
-### `yarn start`
+    yarn install
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Build Configuration
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+The following environment variables are required.  You can copy and rename `.env.sample` to `.env` for use as a template.
 
-### `yarn test`
-Runs the tap based unit tests.
+* `SKIP_PREFLIGHT_CHECK`<br> skip preflight check for yarn
+* `REACT_APP_API_URL` The URL with port of the stac compliant api.  This should not include the `/stac` path prefix.
+* `REACT_APP_MAPBOX_ACCESS_TOKEN` A token for accessing the [Mapbox API](https://www.mapbox.com)
+* `REACT_APP_RESULT_LIMIT` Maximum number of results the API will display
 
-### `yarn run build`
+Example:
+
+    SKIP_PREFLIGHT_CHECK=true
+    REACT_APP_API_URL=https://stac.boundlessgeo.io
+    REACT_APP_MAPBOX_ACCESS_TOKEN=px.eyJ1IjoicGhpbHZhcm6lciIsImEiOiJjanhhbHlnZHkweWtoM3hucmp3NTZsbmpsIn0.Njnnayl6FxkecPBZvKWfzB
+    REACT_APP_RESULT_LIMIT=20
+
+### Build and Run Locally
+
+To run the application locally, run the following from the project directory:
+
+    yarn start
+
+The app will run in the development mode. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits. You will also see any lint errors in the console.
+
+### Build Deployable Artifacts
+
+    yarn run build
 
 Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -49,15 +67,17 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
-The following environment variables are required.  You can copy and rename `.env.sample` to `.env` for use as a template.<br>
-`SKIP_PREFLIGHT_CHECK=true`<br>
-`REACT_APP_API_URL` The URL with port of the stac compliant api.<br>
-`REACT_APP_MAPBOX_ACCESS_TOKEN`<br>
-`REACT_APP_RESULT_LIMIT`
+### Deploy to S3
 
-### `yarn run build && aws s3 sync build/ s3://sat-api-browser-dev`
+    yarn run build && aws s3 sync build/ s3://sat-api-browser-dev
 
-Build and deploy to s3 bucket.
+Build and deploy to S3 bucket.
+
+### Tests
+
+To run the tap-based unit tests:
+
+    yarn test
 
 ### Design Approach
 
