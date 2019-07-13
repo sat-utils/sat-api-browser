@@ -35,13 +35,13 @@ export const ResultsPaging = (props) => {
     status
   } = props;
   const moreResults = resultsTotal - resultsDisplayed;
+  const validResultsTotal = typeof (resultsTotal) === 'number';
   const getMoreResults = () => {
     const limit = process.env.REACT_APP_RESULT_LIMIT;
     const filter = currentFilter.toJS();
     filter.page = (resultsDisplayed / limit) + 1;
     fetchFilteredItemsAction(filter);
   };
-
   return (
     <Grid
       container
@@ -50,22 +50,26 @@ export const ResultsPaging = (props) => {
     >
       <Grid item xs={8}>
         <div className={classes.container}>
-          <Chip
-            color="primary"
-            label={`Found - ${resultsTotal}`}
-            className={classes.chips}
-          />
+          {validResultsTotal && (
+            <Chip
+              color="primary"
+              label={`Found - ${resultsTotal}`}
+              className={classes.chips}
+            />
+          )}
           <Chip
             color="secondary"
             label={`Displaying - ${resultsDisplayed}`}
             className={classes.chips}
           />
-          <ProgressButton
-            disabled={resultsTotal === 0 || moreResults === 0 || status === loading}
-            label="More Results"
-            status={status}
-            onClick={getMoreResults}
-          />
+          {validResultsTotal && (
+            <ProgressButton
+              disabled={resultsTotal === 0 || moreResults === 0 || status === loading}
+              label="More Results"
+              status={status}
+              onClick={getMoreResults}
+            />
+          )}
         </div>
       </Grid>
     </Grid>
@@ -74,7 +78,7 @@ export const ResultsPaging = (props) => {
 
 ResultsPaging.propTypes = {
   classes: PropTypes.shape({}),
-  resultsTotal: PropTypes.number.isRequired,
+  resultsTotal: PropTypes.number,
   resultsDisplayed: PropTypes.number.isRequired,
   currentFilter: PropTypes.shape({}),
   fetchFilteredItemsAction: PropTypes.func.isRequired,
