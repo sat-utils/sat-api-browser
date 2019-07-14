@@ -33,6 +33,8 @@ function addFilterError(key, errors, message) {
 }
 
 export const FilterFormWrapper = withFormik({
+  isInitialValid: true,
+
   mapPropsToValues: (props) => {
     const currentFilter = props.currentFilter.toJS();
     const { query, time } = currentFilter;
