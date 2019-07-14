@@ -38,7 +38,7 @@ const styles = () => ({
   }
 });
 
-class ImageItem extends React.Component {
+export class ImageItem extends React.Component {
   constructor(props) {
     super(props);
     this.compRef = React.createRef();
@@ -75,7 +75,8 @@ class ImageItem extends React.Component {
     } = this.props;
     const date = format(parseISO(datetime), 'MM/dd/yyyy - HH:mm:ss');
     const camelCollection = collection
-      .replace(/(^|[\s-])\S/g, letter => (letter.toUpperCase()));
+      ? collection.replace(/(^|[\s-])\S/g, letter => (letter.toUpperCase()))
+      : '';
     return (
       <GridListTile
         className={id === activeImageItemId ? classes.selected : classes.tile}
@@ -104,7 +105,6 @@ class ImageItem extends React.Component {
           actionIcon={(
             <IconButton
               className={classes.icon}
-              onClick={() => console.log('test')}
             >
               <Icon />
             </IconButton>
@@ -126,7 +126,8 @@ ImageItem.propTypes = {
   classes: PropTypes.shape({
     title: PropTypes.string.isRequired,
     subtitle: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  collection: PropTypes.string
 };
 
 export default withStyles(styles)(ImageItem);

@@ -10,3 +10,4 @@ require('./test_stylesheetReducer');
 require('./test_ProgressButton.js');
 require('./test_FilterFormWrapper.js');
 require('./test_ResultsPaging.js');
+require('./test_ImageItem.js');
